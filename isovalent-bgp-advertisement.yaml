@@ -3,10 +3,9 @@ kind: IsovalentBGPAdvertisement
 metadata:
   name: vip-advertisement
 spec:
+  nodeSelector:
+    matchLabels:
+      node.kubernetes.io/name: k8s-wkr01
   advertisements:
     - advertisementType: "PrefixV4"
-      prefixV4:
-        prefix: "192.150.9.124/30"
-      nodeSelector:
-        matchLabels:
-          node.kubernetes.io/name: k8s-wkr01 
+      prefix: "192.150.9.124/30" 
