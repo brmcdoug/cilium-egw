@@ -25,7 +25,7 @@ spec:
   - nodeSelector:
       matchLabels:
         node.kubernetes.io/name: k8s-wkr01
-    interface: ens5
+    interface: vip1
     egressIP: "192.150.9.124"
 
 
