@@ -1,0 +1,46 @@
+apiVersion: isovalent.com/v1
+kind: IsovalentEgressGatewayPolicy
+metadata:
+  name: green-policy
+  labels:
+    advertise: bgp
+
+spec:
+  destinationCIDRs:
+  - "0.0.0.0/0"
+  excludedCIDRs:
+  - "10.200.0.0/16"
+
+  selectors:
+  - podSelector:
+      matchLabels:
+        #app.kubernetes.io/name: bluepod0
+        io.kubernetes.pod.namespace: blue
+
+  egressGroups:
+  - nodeSelector:
+      matchLabels:
+        node.kubernetes.io/name: k8s-wkr01
+    interface: ens5
+
+# ---
+# apiVersion: cilium.io/v2alpha1
+# kind: CiliumBGPPeeringPolicy
+# metadata:
+#   name: dci
+# spec:
+#   nodeSelector:
+#     matchLabels:
+#       kubernetes.io/hostname: k8s-wkr01
+#   virtualRouters:
+#   - localASN: 65102
+#     egressGatewayPolicySelector:
+#       matchLabels:
+#         advertise: bgp
+#     neighbors:
+#     - peerAddress: "10.0.0.5/32"
+#       peerASN: 65000
+#       eBGPMultihopTTL: 10
+#       families:
+#        - afi: ipv4
+#          safi: unicast

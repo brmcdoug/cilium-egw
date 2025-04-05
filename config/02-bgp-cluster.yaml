@@ -1,0 +1,19 @@
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: cilium-bgp
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/hostname: k8s-wkr01
+  bgpInstances:
+  - name: "instance-65102"
+    localASN: 65102
+    peers:
+    - name: "dci-xrd05"
+      localPort: 179
+      peerASN: 65000
+      peerAddress: 10.0.0.5
+      peerConfigRef:
+        name: "cilium-peer"
+

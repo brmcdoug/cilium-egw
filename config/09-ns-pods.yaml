@@ -1,0 +1,26 @@
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: blue
+  labels:
+    name: blue
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: blue
+  labels:
+    app: alpine-ping
+  name: bluepod0
+spec:
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: bluepod0
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
