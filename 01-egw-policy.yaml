@@ -25,29 +25,6 @@ spec:
   - nodeSelector:
       matchLabels:
         node.kubernetes.io/name: k8s-wkr01
-    #interface: vip1
+    interface: vip1
     egressIP: "192.150.9.124"
 
-
-
-# ---
-# apiVersion: cilium.io/v2alpha1
-# kind: CiliumBGPPeeringPolicy
-# metadata:
-#   name: dci
-# spec:
-#   nodeSelector:
-#     matchLabels:
-#       kubernetes.io/hostname: k8s-wkr01
-#   virtualRouters:
-#   - localASN: 65102
-#     egressGatewayPolicySelector:
-#       matchLabels:
-#         advertise: bgp
-#     neighbors:
-#     - peerAddress: "10.0.0.5/32"
-#       peerASN: 65000
-#       eBGPMultihopTTL: 10
-#       families:
-#        - afi: ipv4
-#          safi: unicast
