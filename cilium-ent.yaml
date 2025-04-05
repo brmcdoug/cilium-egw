@@ -13,16 +13,11 @@ bpf:
 enterprise:
   featureGate:
     approved:
-    - SRv6
     - EnterpriseBGPControlPlane
     - EgressGatewayHA
     - EgressGatewayIPv4
   egressGatewayHA:
     enabled: true  # Defaults to 'false'.
-  srv6:
-    enabled: true
-    encapMode: reduced
-    locatorPoolEnabled: true
   bgpControlPlane:
     enabled: true
 k8s:
