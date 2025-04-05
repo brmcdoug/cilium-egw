@@ -1,6 +1,6 @@
 ---
-apiVersion: cilium.io/v2alpha1
-kind: CiliumBGPNodeConfigOverride
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPNodeConfigOverride
 metadata:
   name: bgpv2-router-id
 spec:
