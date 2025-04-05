@@ -62,6 +62,14 @@ spec:
       - "sleep 60m"
 
 ---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: red
+  labels:
+    name: red
+
+---
 apiVersion: v1
 kind: Pod
 metadata:
@@ -79,4 +87,3 @@ spec:
       - "-c"
       - "sleep 60m"
       
-        
