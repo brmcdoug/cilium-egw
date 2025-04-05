@@ -27,6 +27,25 @@ spec:
         node.kubernetes.io/name: k8s-wkr01
     interface: ens5
 
+---
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentEgressNATPolicy
+metadata:
+  name: green-policy
+  spec:
+    egress:
+    - namespaceSelector:
+        matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: In
+          values:
+          - blue
+          - red
+          - orange
+    destinationCIDRs:
+    - "0.0.0.0/0"
+    egressSourceIP: 192.150.9.124
+
 # ---
 # apiVersion: cilium.io/v2alpha1
 # kind: CiliumBGPPeeringPolicy
