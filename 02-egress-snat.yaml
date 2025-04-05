@@ -1,6 +1,6 @@
 ---
-apiVersion: isovalent.com/v1alpha1
-kind: IsovalentEgressNATPolicy
+apiVersion: cilium.io/v2alpha1
+kind: CiliumEgressNATPolicy
 metadata:
   name: green-policy
   spec:
