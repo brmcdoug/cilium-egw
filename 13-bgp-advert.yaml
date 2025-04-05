@@ -1,14 +1,14 @@
-apiVersion: isovalent.com/v1alpha1
-kind: IsovalentBGPAdvertisement
-metadata:
-  name: bgp-advertisements
-  labels:
-    advertise: bgp
-spec:
-  advertisements:
-    - advertisementType: "Service"
-      service:
-        addresses:
-          - ClusterIP
-          - ExternalIP
-          - LoadBalancerIP
+# apiVersion: isovalent.com/v1alpha1
+# kind: IsovalentBGPAdvertisement
+# metadata:
+#   name: bgp-advertisements
+#   labels:
+#     advertise: bgp
+# spec:
+#   advertisements:
+#     - advertisementType: "Service"
+#       service:
+#         addresses:
+#           - ClusterIP
+#           - ExternalIP
+#           - LoadBalancerIP

@@ -15,4 +15,6 @@ spec:
       peerAddress: 10.0.0.5
       peerConfigRef:
         name: "cilium-peer"
+    prefixAdvertisements:
+      - cidr: "192.150.9.124/30"
 
