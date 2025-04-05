@@ -11,7 +11,6 @@ spec:
     localASN: 65102
     peers:
     - name: "dci-xrd05"
-      localPort: 179
       peerASN: 65000
       peerAddress: 10.0.0.5
       peerConfigRef:
