@@ -86,4 +86,39 @@ spec:
       - /bin/sh
       - "-c"
       - "sleep 60m"
-      
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: red
+  labels:
+    app: alpine-ping
+  name: redpod1
+spec:
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: redpod1
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: red
+  labels:
+    app: alpine-ping
+  name: redpod2
+spec:
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: redpod2
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
