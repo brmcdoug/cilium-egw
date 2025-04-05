@@ -1,5 +1,5 @@
-apiVersion: cilium.io/v2
-kind: CiliumBGPClusterConfig
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPClusterConfig
 metadata:
   name: cilium-bgp
 spec:
