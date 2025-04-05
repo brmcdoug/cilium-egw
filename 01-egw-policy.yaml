@@ -3,8 +3,8 @@ kind: IsovalentEgressGatewayPolicy
 metadata:
   name: green-policy
   labels:
-    #advertise: bgp
     egw: bgp-advertise
+    advertise: bgp
 
 spec:
   destinationCIDRs:
