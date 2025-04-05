@@ -1,0 +1,12 @@
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPAdvertisement
+metadata:
+  name: vip-advertisement
+spec:
+  advertisements:
+    - advertisementType: "PrefixV4"
+      prefixV4:
+        prefix: "192.150.9.124/30"
+      nodeSelector:
+        matchLabels:
+          node.kubernetes.io/name: k8s-wkr01 
