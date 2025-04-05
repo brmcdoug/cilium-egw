@@ -8,8 +8,8 @@ spec:
       kubernetes.io/hostname: k8s-wkr01
   bgpInstances:
   - name: "instance-65102"
-    prefixAdvertisements:
-      - cidr: "192.150.9.124/30"
+    # prefixAdvertisements:
+    #   - cidr: "192.150.9.124/30"
     localASN: 65102
     peers:
     - name: "dci-xrd05"
