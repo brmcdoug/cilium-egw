@@ -12,10 +12,14 @@ spec:
   - "10.200.0.0/16"
 
   selectors:
-  - podSelector:
-      matchLabels:
-        #app.kubernetes.io/name: bluepod0
-        io.kubernetes.pod.namespace: blue
+  - namespaceSelector:
+      matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values:
+        - blue
+        - red
+        - orange
 
   egressGroups:
   - nodeSelector:
