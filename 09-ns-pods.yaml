@@ -17,7 +17,7 @@ metadata:
   name: bluepod0
 spec:
   containers:
-  - image: alpine:latest
+  - image: iejalapeno/alpine:latest
     imagePullPolicy: IfNotPresent
     name: bluepod0
     command:
@@ -115,7 +115,7 @@ metadata:
   name: redpod2
 spec:
   containers:
-  - image: alpine:latest
+  - image: iejalapeno/alpine:latest
     imagePullPolicy: IfNotPresent
     name: redpod2
     command:
