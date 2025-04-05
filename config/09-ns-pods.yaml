@@ -24,3 +24,59 @@ spec:
       - /bin/sh
       - "-c"
       - "sleep 60m"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: blue
+  labels:
+    app: alpine-ping
+  name: bluepod1
+spec:
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: bluepod1
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: blue
+  labels:
+    app: alpine-ping
+  name: bluepod2
+spec:
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: bluepod2
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: red
+  labels:
+    app: alpine-ping
+  name: redpod0
+spec:
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: redpod0
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
+      
+        
