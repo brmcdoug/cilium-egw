@@ -14,7 +14,6 @@ spec:
   - "0.0.0.0/0"
   egressCIDRs:
   - "192.150.9.124/31"
-
   egressGroups:
     - nodeSelector:
         matchLabels:

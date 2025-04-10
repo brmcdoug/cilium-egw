@@ -68,3 +68,9 @@ kubectl explain isovalentegressgatewaypolicy.spec.selectors
 ```
 kubectl get isovalentegressgatewaypolicies -o yaml
 ```
+
+
+### uninstall
+```
+helm uninstall cilium -n kube-system
+```
