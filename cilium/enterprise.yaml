@@ -19,6 +19,7 @@ enterprise:
     - EgressGatewayIPv4
   egressGatewayHA:
     enabled: true 
+    installRoutes: true
   srv6:
     enabled: true
     encapMode: reduced
