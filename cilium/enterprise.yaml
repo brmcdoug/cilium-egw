@@ -6,27 +6,25 @@ nodeinit:
   enabled: true
 debug:
   enabled: true
-# ipv6:
-#   enabled: true
 bpf:
   masquerade: true  # Default to 'false'.
-egressGateway:
-  enabled: true
-  installRoutes: true
-bgpControlPlane:
+ipv6:
   enabled: true
 enterprise:
   featureGate:
     approved:
+    - SRv6
     - EnterpriseBGPControlPlane
     - EgressGatewayHA
     - EgressGatewayIPv4
   egressGatewayHA:
     enabled: true 
-envoy:
-  enabled: true
-gatewayAPI:
-  enabled: true
+  srv6:
+    enabled: true
+    encapMode: reduced
+    locatorPoolEnabled: true
+  bgpControlPlane:
+    enabled: true
 k8s:
   requireIPv4PodCIDR: true
   #requireIPv6PodCIDR: true
@@ -34,4 +32,3 @@ ipam:
   mode: kubernetes
 ipv4NativeRoutingCIDR: 10.0.0.0/8
 #ipv6NativeRoutingCIDR: c::/32
-kubeProxyReplacement: true  # Defaults to 'false'.
