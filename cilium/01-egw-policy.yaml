@@ -1,7 +1,7 @@
 apiVersion: isovalent.com/v1
 kind: IsovalentEgressGatewayPolicy
 metadata:
-  name: green-policy
+  name: egress-green
   labels:
     egw: bgp-advertise
     advertise: bgp
@@ -15,9 +15,14 @@ spec:
   - "192.150.9.124/31"
 
   egressGroups:
-  - nodeSelector:
-      matchLabels:
-        node.kubernetes.io/name: cluster00-wkr00
+    - nodeSelector:
+        matchLabels:
+          egress-node: "green"   
+
+  # egressGroups:
+  # - nodeSelector:
+  #     matchLabels:
+  #       node.kubernetes.io/name: cluster00-wkr00
 
   # selectors:
   # - namespaceSelector:

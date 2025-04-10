@@ -22,12 +22,6 @@ enterprise:
     enabled: true
 envoy:
   enabled: true
-  extraArgs:
-  - --component-log-level http:debug,http2:debug,filter:debug,conn_handler:debug,router:debug,connection:debug,upstream:debug,pool:debug
-  prometheus:
-    enabled: true
-    serviceMonitor:
-      enabled: true
 gatewayAPI:
   enabled: true
 k8s:
