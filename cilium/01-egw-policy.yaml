@@ -12,15 +12,15 @@ spec:
   - "10.200.0.0/16"
   egressCIDRs:
   - "192.150.9.124/31"
-  # egressGroups:
-  #   - nodeSelector:
-  #       matchLabels:
-  #         egress-node: "green"   
-
   egressGroups:
-  - nodeSelector:
-      matchLabels:
-        node.kubernetes.io/name: cluster00-wkr00
+    - nodeSelector:
+        matchLabels:
+          egress-node: "green"   
+
+  # egressGroups:
+  # - nodeSelector:
+  #     matchLabels:
+  #       node.kubernetes.io/name: cluster00-wkr00
 
   selectors:
   - podSelector:
