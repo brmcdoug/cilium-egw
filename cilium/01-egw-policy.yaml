@@ -3,7 +3,6 @@ kind: IsovalentEgressGatewayPolicy
 metadata:
   name: egress-green
   labels:
-    egw: bgp-advertise
     advertise: bgp
 
 spec:
