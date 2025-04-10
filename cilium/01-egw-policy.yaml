@@ -7,6 +7,9 @@ metadata:
     advertise: bgp
 
 spec:
+  selector:
+    matchLabels:
+      io.kubernetes.pod.namespace: blue
   destinationCIDRs:
   - "0.0.0.0/0"
   excludedCIDRs:
