@@ -5,7 +5,6 @@ cilium:
     masquerade: true
   debug:
     enabled: true
-    verbose: flow,datapath,envoy,policy
   egressGateway:
     enabled: true
     installRoutes: true
