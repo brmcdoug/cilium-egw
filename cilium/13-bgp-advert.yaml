@@ -4,9 +4,9 @@ metadata:
   name: bgp-advertisement
   labels:
     advertise: bgp
-spec:
-  advertisements:
-    - advertisementType: "EgressGateway"
-      selector:            
-        matchExpressions:
-          - { key: egw, operator: In, values: [ bgp-advertise ] }
+# spec:
+#   advertisements:
+#     - advertisementType: "EgressGateway"
+#       selector:            
+#         matchExpressions:
+#           - { key: egw, operator: In, values: [ bgp-advertise ] }
