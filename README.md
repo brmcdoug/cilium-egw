@@ -17,7 +17,12 @@ helm get values cilium -n kube-system
 kubectl apply -f 01-egw-policy.yaml
 ```
 
-4. add host route on worker EGW node
+4. verify egress policy
+```
+kubectl edit IsovalentEgressGatewayPolicy egress-green
+```
+
+5. add host route on worker EGW node
 ```
 sudo ip route add 192.150.9.124/32 dev ens4
 ```

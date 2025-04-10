@@ -1,9 +1,0 @@
----
-apiVersion: isovalent.com/v1alpha1
-kind: IsovalentBGPNodeConfigOverride
-metadata:
-  name: bgpv2-router-id
-spec:
-  bgpInstances:
-    - name: "65102"
-      routerID: "10.10.22.2"

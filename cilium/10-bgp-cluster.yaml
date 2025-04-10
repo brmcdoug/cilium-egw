@@ -7,7 +7,7 @@ spec:
     matchLabels:
       egress-node: "green"
   bgpInstances:
-  - name: "65010"
+  - name: "instance-65010"
     localASN: 65010
     peers:
     - name: "r99"
