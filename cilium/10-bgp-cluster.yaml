@@ -7,14 +7,14 @@ spec:
     matchLabels:
       kubernetes.io/hostname: k8s-wkr01
   bgpInstances:
-  - name: "instance-65102"
+  - name: "instance-4200001003"
     # prefixAdvertisements:
     #   - cidr: "192.150.9.124/30"
-    localASN: 65102
+    localASN: 4200001003
     peers:
     - name: "dci-xrd05"
-      peerASN: 65000
-      peerAddress: 10.0.0.5
+      peerASN: 4200000099
+      peerAddress: 10.0.0.99
       peerConfigRef:
         name: "cilium-peer"
     # prefixAdvertisements:

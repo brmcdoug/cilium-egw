@@ -11,21 +11,20 @@ spec:
   - "0.0.0.0/0"
   excludedCIDRs:
   - "10.200.0.0/16"
-
-  selectors:
-  - namespaceSelector:
-      matchExpressions:
-      - key: kubernetes.io/metadata.name
-        operator: In
-        values:
-        - blue
-        - red
-        - orange
+  egressCIDRs:
+  - "192.150.9.124/31"
 
   egressGroups:
   - nodeSelector:
       matchLabels:
-        node.kubernetes.io/name: k8s-wkr01
-    interface: vip1
-    egressIP: "192.150.9.124"
+        node.kubernetes.io/name: cluster00-wkr00
 
+  # selectors:
+  # - namespaceSelector:
+  #     matchExpressions:
+  #     - key: kubernetes.io/metadata.name
+  #       operator: In
+  #       values:
+  #       - blue
+  #       - red
+  #       - orange

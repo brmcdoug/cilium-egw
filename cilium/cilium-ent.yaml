@@ -10,16 +10,26 @@ ipv6:
   enabled: true
 bpf:
   masquerade: true  # Default to 'false'.
-enterprise:
-  featureGate:
-    approved:
-    - EnterpriseBGPControlPlane
-    - EgressGatewayHA
-    - EgressGatewayIPv4
-  egressGatewayHA:
-    enabled: true  # Defaults to 'false'.
-  bgpControlPlane:
+egressGateway:
+  enabled: true
+bgpControlPlane:
+  enabled: true
+  egressGateway:
     enabled: true
+    installRoutes: true
+enterprise:
+  egressGatewayHA:
+    enabled: true
+envoy:
+  enabled: true
+  extraArgs:
+  - --component-log-level http:debug,http2:debug,filter:debug,conn_handler:debug,router:debug,connection:debug,upstream:debug,pool:debug
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+gatewayAPI:
+  enabled: true
 k8s:
   requireIPv4PodCIDR: true
   requireIPv6PodCIDR: true
