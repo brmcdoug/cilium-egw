@@ -8,8 +8,9 @@ metadata:
 
 spec:
   selectors:
-    matchLabels:
-      io.kubernetes.pod.namespace: blue
+  - podSelector:
+      matchLabels:
+        io.kubernetes.pod.namespace: blue
   destinationCIDRs:
   - "0.0.0.0/0"
   excludedCIDRs:
