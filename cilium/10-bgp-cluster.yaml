@@ -1,11 +1,14 @@
 apiVersion: isovalent.com/v1alpha1
 kind: IsovalentBGPClusterConfig
 metadata:
-  name: cilium-bgp
+  name: cluster00-wkr00
 spec:
+  # nodeSelector:
+  #   matchLabels:
+  #     egress-node: "green"
   nodeSelector:
     matchLabels:
-      egress-node: "green"
+      node.kubernetes.io/name: cluster00-wkr00
   bgpInstances:
   - name: "instance-65010"
     localASN: 65010
