@@ -8,7 +8,7 @@ spec:
   selectors:
   - podSelector:
       matchLabels:
-        io.kubernetes.pod.namespace: testns
+        io.kubernetes.pod.namespace: blue
   destinationCIDRs:
   - "0.0.0.0/0"
   egressCIDRs:
