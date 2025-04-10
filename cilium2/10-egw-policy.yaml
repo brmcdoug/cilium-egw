@@ -4,7 +4,6 @@ metadata:
   name: egress-green
   labels:
     advertise: bgp-green
-
 spec:
   selectors:
   - podSelector:
@@ -15,6 +14,6 @@ spec:
   egressCIDRs:
   - "192.150.9.124/31"
   egressGroups:
-    - nodeSelector:
-        matchLabels:
-          egress-node: "green"   
+  - nodeSelector:
+      matchLabels:
+        egressnode: "green"
