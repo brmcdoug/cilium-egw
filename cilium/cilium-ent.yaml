@@ -12,11 +12,9 @@ bpf:
   masquerade: true  # Default to 'false'.
 egressGateway:
   enabled: true
+  installRoutes: true
 bgpControlPlane:
   enabled: true
-  egressGateway:
-    enabled: true
-    installRoutes: true
 enterprise:
   egressGatewayHA:
     enabled: true
