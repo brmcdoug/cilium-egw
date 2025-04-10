@@ -16,4 +16,4 @@ spec:
   egressGroups:
     - nodeSelector:
         matchLabels:
-          egressnode: "green"
+          egress-node: "green"   
