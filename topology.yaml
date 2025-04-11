@@ -65,6 +65,9 @@ topology:
     cluster01-wkr00: # re-using virsh net from cilium-srv6
       kind: bridge
 
+    wkr00-net2:
+      kind: bridge
+
   links:
     - endpoints: ["r00:eth1", "r02:eth1"]
     - endpoints: ["r00:eth2", "r03:eth1"]
@@ -79,6 +82,8 @@ topology:
     - endpoints: ["r02:eth3", "cluster00-cp:r02-eth3"]
     - endpoints: ["r03:eth3", "cluster00-wkr00:r03-eth3"]
     - endpoints: ["r04:eth3", "cluster01-wkr00:r04-eth3"]
+
+    - endpoints: ["r04:eth4", "wkr00-net2:r04-eth4"]
 
 
 
