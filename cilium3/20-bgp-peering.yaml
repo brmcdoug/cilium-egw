@@ -35,16 +35,8 @@ spec:
     - peerAddress: '10.0.0.99/32'
       eBGPMultihopTTL: 5
       peerASN: 65005
-      families:
-       - afi: ipv4
-         safi: unicast
       advertisedPathAttributes:
       - selectorType: IsovalentEgressGatewayPolicy
         selector:
           matchLabels:
             advertise: bgp-green
-    - peerAddress: "10.10.11.1/32"
-      peerASN: 65003
-      families:
-       - afi: ipv4
-         safi: unicast

@@ -8,15 +8,26 @@ debug:
   enabled: true
 ipv6:
   enabled: true
-enterprise:
-  srv6:
-    enabled: true
-    encapMode: reduced
-    locatorPoolEnabled: true
+bpf:
+  masquerade: true  # Default to 'false'.
+egressGateway:
+  enabled: true
+  installRoutes: true
 bgpControlPlane:
+  enabled: true
+enterprise:
+  featureGate:
+    approved:
+    - EnterpriseBGPControlPlane
+    - EgressGatewayHA
+    - EgressGatewayIPv4
+  egressGatewayHA:
+    enabled: true 
+envoy:
   enabled: true
 k8s:
   requireIPv4PodCIDR: true
   requireIPv6PodCIDR: true
 ipam:
   mode: kubernetes
+kubeProxyReplacement: true  # Defaults to 'false'.
