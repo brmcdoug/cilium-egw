@@ -37,7 +37,7 @@ kubectl edit IsovalentEgressGatewayPolicy egress-green
 
 6. annotate egw node to force bgp router id
 ```
-kubectl annotate node cluster00-wkr00 cilium.io/bgp-virtual-router.65010="router-id=10.10.11.2"
+kubectl annotate node cluster00-wkr00 cilium.io/bgp-virtual-router.65010="router-id=10.10.21.2"
 ```
 
 7. add host route on worker EGW node
