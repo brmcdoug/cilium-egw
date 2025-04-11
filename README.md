@@ -1,12 +1,18 @@
 # cilium-egw
 
-1. label node
+### Notes and rough instructions
+
+1. label worker node
 ```
 kubectl label node cluster00-wkr00 egress-node=green
+```
+
+If you need to remove the label:
+```
 kubectl label node cluster00-wkr00 egress-node-
 ```
 
-2. install cilium
+2. install cilium, and verify the installation
 ```
 helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f cilium-ent.yaml 
 ```
@@ -51,15 +57,13 @@ cilium bgp peers --node cluster00-wkr00
 ```
 
 
-
+## appendix, notes
 
 
 ### uninstall
 ```
 helm uninstall cilium -n kube-system
 ```
-
-### appendix
 
 ```
 helm upgrade cilium isovalent/cilium --namespace kube-system    --reuse-values    --set egressGateway.enabled=true --set egressGateway.installRoutes=true   --set bpf.masquerade=true    --set kubeProxyReplacement=true
