@@ -24,27 +24,27 @@ kubectl apply -f 10-ns-pods.yaml
 kubectl apply -f 10-egw-policy.yaml
 ```
 
-1. verify egress policy
+5. verify egress policy
 ```
 kubectl edit IsovalentEgressGatewayPolicy egress-green
 ```
 
-1. annotate egw node to force bgp router id
+6. annotate egw node to force bgp router id
 ```
 kubectl annotate node cluster00-wkr00 cilium.io/bgp-virtual-router.65010="router-id=10.10.11.2"
 ```
 
-1. add host route on worker EGW node
+7. add host route on worker EGW node
 ```
 sudo ip route add 192.150.9.124/32 dev ens4
 ```
 
-1. apply bgp config
+8. apply bgp config
 ```
 kubectl apply -f 20-bgp-peering.yaml
 ```
 
-1. check bgp peers
+9. check bgp peers
 ```
 cilium bgp peers
 cilium bgp peers --node cluster00-wkr00
