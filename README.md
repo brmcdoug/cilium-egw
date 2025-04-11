@@ -3,26 +3,32 @@
 1. label node
 ```
 kubectl label node cluster00-wkr00 egress-node=green
+kubectl label node cluster00-wkr00 egress-node-
 ```
 
 2. install cilium
 ```
+helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f cilium-ent.yaml 
+```
+```
 
-helm upgrade cilium isovalent/cilium --namespace kube-system    --reuse-values    --set egressGateway.enabled=true    --set bpf.masquerade=true    --set kubeProxyReplacement=true
+helm upgrade cilium isovalent/cilium --namespace kube-system    --reuse-values    --set egressGateway.enabled=true --set egressGateway.installRoutes=true   --set bpf.masquerade=true    --set kubeProxyReplacement=true
 
 helm get values cilium -n kube-system
 ```
-3. apply egress policy
+1. apply egress policy
 ```
 kubectl apply -f 01-egw-policy.yaml
 ```
 
-4. verify egress policy
+1. verify egress policy
 ```
 kubectl edit IsovalentEgressGatewayPolicy egress-green
 ```
 
-5. add host route on worker EGW node
+kubectl annotate node cluster00-wkr00 cilium.io/bgp-virtual-router.65010="router-id=10.10.11.2"
+
+1. add host route on worker EGW node
 ```
 sudo ip route add 192.150.9.124/32 dev ens4
 ```
