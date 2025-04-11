@@ -54,7 +54,7 @@
     </interface>
     <interface type='network'>
       <mac address="52:54:bb:22:a1:b2"/>   
-      <source network='cluster00-wkr00-net2' bridge='cluster00-wkr00-net2'/>
+      <source network='wkr00-net2' bridge='wkr00-net2'/>
       <target dev='vnet2'/>
       <model type='virtio'/>
       <alias name='net2'/>
