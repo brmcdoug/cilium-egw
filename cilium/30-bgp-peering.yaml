@@ -1,22 +1,4 @@
-apiVersion: "cilium.io/v2alpha1"
-kind: CiliumBGPPeeringPolicy
-metadata:
-  name: cluster00-cp
-spec:
-  nodeSelector:
-    matchLabels:
-      kubernetes.io/hostname: cluster00-cp
-  virtualRouters:
-  - localASN: 65009
-    exportPodCIDR: true
-    neighbors:
-    - peerAddress: "10.10.10.1/32"
-      peerASN: 65002
-      families:
-       - afi: ipv4
-         safi: unicast
 
----
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumBGPPeeringPolicy
 metadata:
