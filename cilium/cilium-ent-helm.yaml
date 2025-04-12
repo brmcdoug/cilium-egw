@@ -13,8 +13,8 @@ bpf:
 egressGateway:
   enabled: true
   installRoutes: true
-bgpControlPlane:
-  enabled: true
+# bgpControlPlane:
+#   enabled: true
 enterprise:
   featureGate:
     approved:
@@ -23,6 +23,8 @@ enterprise:
     - EgressGatewayIPv4
   egressGatewayHA:
     enabled: true 
+  bgpControlPlane:
+    enabled: true
 envoy:
   enabled: true
 k8s:

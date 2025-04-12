@@ -7,7 +7,6 @@ spec:
   nodeSelector:
     matchLabels:
       egress-node: "green"
-      #kubernetes.io/hostname: cluster00-wkr00
   virtualRouters:
   - localASN: 65010
     egressGatewayPolicySelector:
