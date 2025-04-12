@@ -22,7 +22,7 @@ enterprise:
   egressGatewayHA:
     enabled: true 
   bgpControlPlane:
-  enabled: true
+    enabled: true
 envoy:
   enabled: true
 k8s:
