@@ -3,10 +3,10 @@ kind: IsovalentBGPAdvertisement
 metadata:
   name: bgp-green
   labels:
-    egw: bgp-green
+    advertise: bgp-green
 spec:
   advertisements:
     - advertisementType: "EgressGateway"
       selector:            
         matchExpressions:
-          - { key: egw, operator: In, values: [ bgp-green ] }
+          - { key: advertise, operator: In, values: [ bgp-green ] }
