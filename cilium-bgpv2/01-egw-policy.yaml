@@ -3,7 +3,7 @@ kind: IsovalentEgressGatewayPolicy
 metadata:
   name: egress-green
   labels:
-    advertise: bgp
+    advertise: bgp-green
 
 spec:
   destinationCIDRs:
@@ -16,11 +16,6 @@ spec:
     - nodeSelector:
         matchLabels:
           egress-node: "green"   
-
-  # egressGroups:
-  # - nodeSelector:
-  #     matchLabels:
-  #       node.kubernetes.io/name: cluster00-wkr00
 
   selectors:
   - podSelector:

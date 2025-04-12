@@ -1,12 +1,12 @@
 apiVersion: isovalent.com/v1alpha1
 kind: IsovalentBGPAdvertisement
 metadata:
-  name: bgp-advertisement
+  name: bgp-green
   labels:
-    advertise: bgp
-# spec:
-#   advertisements:
-#     - advertisementType: "EgressGateway"
-#       selector:            
-#         matchExpressions:
-#           - { key: egw, operator: In, values: [ bgp-advertise ] }
+    egw: bgp-green
+spec:
+  advertisements:
+    - advertisementType: "EgressGateway"
+      selector:            
+        matchExpressions:
+          - { key: egw, operator: In, values: [ bgp-green ] }

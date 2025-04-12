@@ -6,9 +6,6 @@ spec:
   nodeSelector:
     matchLabels:
       egress-node: "green"
-  # nodeSelector:
-  #   matchLabels:
-  #     node.kubernetes.io/name: cluster00-wkr00
   bgpInstances:
   - name: "instance-65010"
     localASN: 65010
@@ -19,9 +16,5 @@ spec:
       peerConfigRef:
         name: "cilium-peer"
 
-    # - name: "r03"
-    #   peerASN: 65003
-    #   peerAddress: 10.10.11.1
-    #   peerConfigRef:
-    #     name: "cilium-peer"
+
 
