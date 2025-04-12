@@ -4,8 +4,11 @@ metadata:
   name: egress-green
   labels:
     advertise: bgp-green
-
 spec:
+  selectors:
+  - podSelector:
+      matchLabels:
+        io.kubernetes.pod.namespace: blue
   destinationCIDRs:
   - "0.0.0.0/0"
   excludedCIDRs:
@@ -17,10 +20,7 @@ spec:
         matchLabels:
           egress-node: "green"   
 
-  selectors:
-  - podSelector:
-      matchLabels:
-        io.kubernetes.pod.namespace: blue
+
 
   # selectors:
   # - namespaceSelector:
