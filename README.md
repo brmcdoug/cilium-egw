@@ -2,16 +2,18 @@
 
 ## Contents
 
-* [Topology](#topology)
-  * [cilium-bgpv2 directory](#cilium-bgpv2-directory)
-  * [nx-config directory](#nx-config-directory)
-  * [vm-config directory](#vm-config-directory)
-* [Instructions](#instructions)
-  * [Launch VMs and Containerlab Topology](#launch-vms-and-containerlab-topology)
-  * [Install Kubernetes](#install-kubernetes)
-  * [Deploy Egress Gateway](#deploy-egress-gateway)
-  * [Test Egress Gateway](#test-egress-gateway)
-* [appendix, notes](#appendix-notes)
+- [Cilium Egress Gateway Lab](#cilium-egress-gateway-lab)
+- [Contents](#contents)
+  - [Topology](#topology)
+  - [cilium-bgpv2 directory](#cilium-bgpv2-directory)
+  - [nx-config directory](#nx-config-directory)
+  - [vm-config directory](#vm-config-directory)
+- [Instructions](#instructions)
+  - [Launch VMs and Containerlab Topology](#launch-vms-and-containerlab-topology)
+  - [Install Kubernetes](#install-kubernetes)
+  - [Deploy Egress Gateway](#deploy-egress-gateway)
+  - [Test Egress Gateway](#test-egress-gateway)
+- [appendix, notes](#appendix-notes)
 
 ### Topology
 
@@ -255,44 +257,34 @@ listening on k8s-egw-net2, link-type EN10MB (Ethernet), snapshot length 262144 b
 
 ## appendix, notes
 
-
-1. add host route on worker EGW node
-```
-sudo ip route add 192.150.9.124/32 dev ens4
-```
-
-### uninstall
+1. uninstall
 ```
 helm uninstall cilium -n kube-system
 ```
 
-```
-helm upgrade cilium isovalent/cilium --namespace kube-system    --reuse-values    --set egressGateway.enabled=true --set egressGateway.installRoutes=true   --set bpf.masquerade=true    --set kubeProxyReplacement=true
-```
-
-## List all CRDs related to Isovalent
+2. List all CRDs related to Isovalent
 ```
 kubectl get crd | grep isovalent
 ```
 
-# Get detailed information about the IsovalentBGPAdvertisement CRD
+3. Get detailed information about the IsovalentBGPAdvertisement CRD
 ```
 kubectl get crd isovalentbgpadvertisements.isovalent.com -o yaml
 ```
 
-# Get detailed information about the IsovalentEgressGatewayPolicy CRD
+4 Get detailed information about the IsovalentEgressGatewayPolicy CRD
 ```
 kubectl get crd isovalentegressgatewaypolicies.isovalent.com -o yaml
 ```
 
 
-# Get the schema in a more readable format
+5. Get the schema in a more readable format
 ```
 kubectl explain isovalentbgpadvertisement.spec
 kubectl explain isovalentbgpadvertisement.spec.advertisements
 ```
 
-# Get the schema in a more readable format
+6. Get the schema in a more readable format
 ```
 kubectl explain isovalentegressgatewaypolicy.spec
 kubectl explain isovalentegressgatewaypolicy.spec.selectors
