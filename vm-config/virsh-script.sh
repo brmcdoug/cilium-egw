@@ -21,8 +21,15 @@ virsh define k8s-egw-node.xml
 virsh define k8s-wkr0-node.xml
 
 # start the nodes
+echo "Starting control plane node..."
 virsh start k8s-cp
+
+sleep 5
+echo "Starting egress gateway nodes..."
 virsh start k8s-egw
+
+sleep 5
+echo "Starting worker node..."
 virsh start k8s-wkr0
 
 # verify the nodes
