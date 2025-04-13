@@ -1,5 +1,5 @@
 <domain type='kvm'>
-  <name>ks8-wkr0</name>
+  <name>k8s-wkr0</name>
   <description>ubuntu-22.04-k8s-vm</description>
   <memory unit='MB'>4000</memory>
   <currentMemory unit='MB'>4000</currentMemory>
