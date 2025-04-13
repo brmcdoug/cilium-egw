@@ -151,36 +151,110 @@ cisco@k8s-egw:~/cilium-egw/vm-config$ ip addr show ens5
        valid_lft forever preferred_lft forever
 ```
 
-5. Annotate the egress gateway node to force bgp router id
+5. apply bgp cluster config
+```
+kubectl apply -f 20-bgp-cluster.yaml
+```
+
+6. Annotate the egress gateway node to force bgp router id
 ```
 kubectl annotate node k8s-egw cilium.io/bgp-virtual-router.65010="router-id=10.10.21.2"
 ```
 
+7. apply bgp peer config
+```
+kubectl apply -f 30-bgp-peer.yaml
+```
 
-1. annotate egw node to force bgp router id
+8. apply bgp advertisement config
 ```
-kubectl annotate node cluster00-wkr00 cilium.io/bgp-virtual-router.65010="router-id=10.10.21.2"
+kubectl apply -f 40-bgp-advert.yaml
 ```
+
+9. check bgp peers
+```
+cilium bgp peers
+cilium bgp peers --node k8s-egw
+cilium bgp routes
+```
+
+Expected output:
+```
+cisco@k8s-cp:~/cilium-egw/cilium-bgpv2$ cilium bgp peers
+Node      Local AS   Peer AS   Peer Address   Session State   Uptime   Family         Received   Advertised
+k8s-egw   65010      65005     10.0.0.5       established     8s       ipv4/unicast   1          1    
+cisco@k8s-cp:~/cilium-egw/cilium-bgpv2$ cilium bgp routes
+(Defaulting to `available ipv4 unicast` routes, please see help for more options)
+
+Node      VRouter   Prefix             NextHop   Age   Attrs
+k8s-egw   65010     192.150.9.124/32   0.0.0.0   22s   [{Origin: i} {Nexthop: 0.0.0.0}]   
+cisco@k8s-cp:~/cilium-egw/cilium-bgpv2$ cilium bgp routes available
+(Defaulting to `ipv4 unicast` AFI & SAFI, please see help for more options)
+
+Node      VRouter   Prefix             NextHop   Age   Attrs
+k8s-egw   65010     192.150.9.124/32   0.0.0.0   30s   [{Origin: i} {Nexthop: 0.0.0.0}]   
+cisco@k8s-cp:~/cilium-egw/cilium-bgpv2$ 
+```
+
+10. deploy test pods and namespaces
+```
+kubectl apply -f 50-ns-pods.yaml
+```
+
+11. verify pods
+```
+kubectl get pods -A
+```
+
+### Test Egress Gateway
+
+1. exec into one of the blue pods
+```
+kubectl exec -it -n blue bluepod0 -- /bin/sh
+```
+
+2. ping the DCI node
+```
+ping 10.0.0.5 -i .3
+```
+
+Expected output:
+```
+/ # ping 10.0.0.5 -i .3
+PING 10.0.0.5 (10.0.0.5): 56 data bytes
+64 bytes from 10.0.0.5: seq=0 ttl=253 time=22.028 ms
+64 bytes from 10.0.0.5: seq=1 ttl=253 time=18.840 ms
+64 bytes from 10.0.0.5: seq=2 ttl=253 time=17.367 ms
+```
+
+3. Validate the egress gateway is NAT'ing outbound traffic
+   Keep the ping running then start a tcpdump on your Topology Host
+```
+sudo tcpdump -ni k8s-egw-net2
+```
+
+Expected tcpdump output:
+```
+cisco@topology-host:~$ sudo tcpdump -ni k8s-egw-net2
+[sudo] password for cisco: 
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on k8s-egw-net2, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+20:53:36.222803 IP 192.150.9.124 > 10.0.0.5: ICMP echo request, id 36691, seq 0, length 64
+20:53:36.234431 IP 10.0.0.5 > 192.150.9.124: ICMP echo reply, id 36691, seq 0, length 64
+20:53:36.523434 IP 192.150.9.124 > 10.0.0.5: ICMP echo request, id 36691, seq 1, length 64
+20:53:36.531602 IP 10.0.0.5 > 192.150.9.124: ICMP echo reply, id 36691, seq 1, length 64
+```
+
+
+
+
+## appendix, notes
+
 
 1. add host route on worker EGW node
 ```
 sudo ip route add 192.150.9.124/32 dev ens4
 ```
-
-1. apply bgp config
-```
-kubectl apply -f 20-bgp-cluster.yaml
-```
-
-1. check bgp peers
-```
-cilium bgp peers
-cilium bgp peers --node cluster00-wkr00
-```
-
-
-## appendix, notes
-
 
 ### uninstall
 ```

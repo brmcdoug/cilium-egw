@@ -7,7 +7,7 @@ network:
     ens4:
       addresses:
         - 10.10.12.2/24
-        - fc00:0:1002::1/64
+        - fc00:0:1002::2/64
       nameservers:
         addresses: [8.8.8.8]
       gateway4: 10.10.12.3   
