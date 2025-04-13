@@ -1,7 +1,7 @@
 apiVersion: isovalent.com/v1alpha1
 kind: IsovalentBGPClusterConfig
 metadata:
-  name: cluster00-wkr00
+  name: k8s-egw
 spec:
   nodeSelector:
     matchLabels:

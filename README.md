@@ -37,73 +37,142 @@ Ubuntu 22.04 VMs attached to the containerlab leaf nodes:
 - virsh XML files defining the VMs themselves
 - etc/netplan files defining the VMs' network interfaces and routes
 
-### Instructions
+## Instructions
+
+### Launch VMs and Containerlab Topology
 
 1. Acquire or construct Ubuntu 22.04 VMs 
-2. Define VM networks and nodes
+2. Define VM networks and nodes, and launch VMs
 ```
 cd vm-config
-sudo ./virsh-define.sh
+sudo ./virsh-script.sh
 ```
 
-3. Define and launch VMs with Virsh/Libvirt 
+3. Launch the containerlab nx9000v topology
+```
+sudo containerlab deploy -t topology.yaml
+```
+
+4. ssh to vms:
+```
+# k8s-cp
+ssh cisco@192.168.122.100
+
+# k8s-egw
+ssh cisco@192.168.122.101
+
+# k8s-wkr0
+ssh cisco@192.168.122.102
+```
+
+5. Ping control plane node from egress gateway node and worker node
+```
+ping 10.10.10.2
+```
+
+### Install Kubernetes
+
+1. Install kubeadm, kubelet, kubectl, and containerd on the VMs [Instructions](xtras/k8s-install.md)
+
+2. Initialize the control plane node
 ```
 cd vm-config
-./launch.sh
+sudo kubeadm init --config=k8s-cp-kubeadm-init.yaml
 ```
 
-4. Install Kubernetes on the VMs [Instructions](xtras/k8s-install.md)
-5. 
+3. Join the egress gateway node and worker node to the cluster
+```
+# k8s-egw
+cd vm-config
+sudo kubeadm join --config=k8s-egw-kubeadm-join.yaml
 
-6. label worker node
-```
-kubectl label node cluster00-wkr00 egress-node=green
-```
-
-If you need to remove the label:
-```
-kubectl label node cluster00-wkr00 egress-node-
+# k8s-wkr0
+cd vm-config
+sudo kubeadm join --config=k8s-wkr0-kubeadm-join.yaml
 ```
 
-2. install cilium, and verify the installation
+4. Verify nodes from the control plane node
 ```
-helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f cilium-ent.yaml 
+kubectl get nodes -o wide
 ```
+
+5.  Install Cilium Enterprise on the control plane node
+Note: this step requires a license from Isovalent
+
+6. Verify the installation
+```
+kubectl get pods -A 
+```
+
+7. List Helm values
 ```
 helm get values cilium -n kube-system
 ```
 
-3. deploy namespace and pods
+### Deploy Egress Gateway
+
+1.  label the egress gateway node
 ```
-kubectl apply -f 10-ns-pods.yaml
+kubectl label node k8s-egw egress-node=green
 ```
 
-4. apply egress policy
+Note: if you need to remove the label:
+```
+kubectl label node k8s-egw egress-node-
+```
+
+2. Apply the egress gateway policy
 ```
 kubectl apply -f 10-egw-policy.yaml
 ```
 
-5. verify egress policy
+3. verify egress policy
 ```
 kubectl edit IsovalentEgressGatewayPolicy egress-green
 ```
 
-6. annotate egw node to force bgp router id
+4. Verify Cilium has attached the VIP to the egress gateway node
+```
+# from k8s-egw
+ip addr show ens5
+```
+
+Expected output:
+```
+cisco@k8s-egw:~/cilium-egw/vm-config$ ip addr show ens5
+4: ens5: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:ab:00:00:03 brd ff:ff:ff:ff:ff:ff
+    altname enp0s5
+    inet 10.10.21.2/24 brd 10.10.21.255 scope global ens5
+       valid_lft forever preferred_lft forever
+    inet 192.150.9.124/32 scope global ens5
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5054:abff:fe00:3/64 scope link 
+       valid_lft forever preferred_lft forever
+```
+
+5. Annotate the egress gateway node to force bgp router id
+```
+kubectl annotate node k8s-egw cilium.io/bgp-virtual-router.65010="router-id=10.10.21.2"
+```
+
+
+1. annotate egw node to force bgp router id
 ```
 kubectl annotate node cluster00-wkr00 cilium.io/bgp-virtual-router.65010="router-id=10.10.21.2"
 ```
 
-7. add host route on worker EGW node
+1. add host route on worker EGW node
 ```
 sudo ip route add 192.150.9.124/32 dev ens4
 ```
 
-8. apply bgp config
+1. apply bgp config
 ```
-kubectl apply -f 20-bgp-peering.yaml
+kubectl apply -f 20-bgp-cluster.yaml
 ```
 
-9. check bgp peers
+1. check bgp peers
 ```
 cilium bgp peers
 cilium bgp peers --node cluster00-wkr00
