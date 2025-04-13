@@ -10,9 +10,9 @@ spec:
   - name: "instance-65010"
     localASN: 65010
     peers:
-    - name: "r99"
+    - name: "r05"
       peerASN: 65005
-      peerAddress: 10.0.0.99
+      peerAddress: 10.0.0.5
       peerConfigRef:
         name: "cilium-peer"
 

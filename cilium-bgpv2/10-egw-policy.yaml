@@ -20,8 +20,6 @@ spec:
         matchLabels:
           egress-node: "green"   
 
-
-
   # selectors:
   # - namespaceSelector:
   #     matchExpressions:
