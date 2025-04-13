@@ -42,12 +42,16 @@ Ubuntu 22.04 VMs attached to the containerlab leaf nodes:
 1. Acquire or construct Ubuntu 22.04 VMs 
 2. Define VM networks 
 ```
-virsh net-define ./vm-config/vm-net.xml
-virsh net-start vm-net
+cd vm-config
+./virsh-nets.sh
 ```
 
+3. Define and launch VMs with Virsh/Libvirt 
+```
+cd vm-config
+./launch.sh
+```
 
-3. Launch VMs with Virsh/Libvirt 
 4. Install Kubernetes on the VMs [Instructions](xtras/k8s-install.md)
 5. 
 
