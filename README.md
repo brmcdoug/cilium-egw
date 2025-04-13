@@ -1,12 +1,17 @@
 ## Cilium Egress Gateway Lab
 
-Table of Contents
+## Contents
 
-1. [Install Cilium](#install-cilium)
-2. [Install Cilium BGP](#install-cilium-bgp)
-3. [Install Cilium BGP](#install-cilium-bgp)
-4. [Install Cilium BGP](#install-cilium-bgp)
-5. [Install Cilium BGP](#install-cilium-bgp)
+* [Topology](#topology)
+  * [cilium-bgpv2 directory](#cilium-bgpv2-directory)
+  * [nx-config directory](#nx-config-directory)
+  * [vm-config directory](#vm-config-directory)
+* [Instructions](#instructions)
+  * [Launch VMs and Containerlab Topology](#launch-vms-and-containerlab-topology)
+  * [Install Kubernetes](#install-kubernetes)
+  * [Deploy Egress Gateway](#deploy-egress-gateway)
+  * [Test Egress Gateway](#test-egress-gateway)
+* [appendix, notes](#appendix-notes)
 
 ### Topology
 
