@@ -46,7 +46,7 @@ topology:
       mgmt-ipv4: 172.20.1.105
       startup-config: nx-config/r05.cfg
 
-    k8s-cp:
+    k8s-cp-net:
       kind: bridge
 
     k8s-egw-net1:
@@ -55,7 +55,7 @@ topology:
     k8s-egw-net2:
       kind: bridge
 
-    k8s-wkr0:
+    k8s-wkr0-net:
       kind: bridge
 
   links:
@@ -67,12 +67,12 @@ topology:
     - endpoints: ["r01:eth2", "r03:eth2"]
     - endpoints: ["r01:eth3", "r04:eth2"]
     
-    - endpoints: ["r02:eth3", "k8s-cp:r02-eth3"]
+    - endpoints: ["r02:eth3", "k8s-cp-net:r02-eth3"]
     - endpoints: ["r02:eth4", "r05:Gi0-0-0-0"]
 
     - endpoints: ["r03:eth3", "k8s-egw-net1:r03-eth3"]
 
-    - endpoints: ["r04:eth3", "k8s-wkr0:r04-eth3"]
+    - endpoints: ["r04:eth3", "k8s-wkr0-net:r04-eth3"]
     - endpoints: ["r04:eth4", "k8s-egw-net2:r04-eth4"]
 
 
