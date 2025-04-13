@@ -1,17 +1,7 @@
 #   The cilium/topology.yaml launches a small nexus 9000v clos fabric with 
 #   Linux bridge instances for attachment of VMs running K8s and Cilium CNI
-#
-#   Topology - not all links shown
-#  
-#     r00  r01  -- xrd99 
-#    / | \/ | \ 
-#   | / \ | \ \ 
-#  r02  r03   r04
-#   |    |     |    
-#  k8s  k8s   k8s
-#  cp  wkr00  wkr01  
 
-name: cilium
+name: egw
 
 mgmt:
   network: mgtnet
@@ -50,40 +40,40 @@ topology:
       mgmt-ipv4: 172.20.1.104
       startup-config: nx-config/r04.cfg
 
-    r99:
+    r05:
       kind: cisco_xrd
       image: ios-xr/xrd-control-plane:24.4.1
-      mgmt-ipv4: 172.20.1.199
-      startup-config: nx-config/r99.cfg
+      mgmt-ipv4: 172.20.1.105
+      startup-config: nx-config/r05.cfg
 
-    cluster00-cp:
+    k8s-cp:
       kind: bridge
 
-    cluster00-wkr00:
+    k8s-egw-net1:
       kind: bridge
 
-    cluster01-wkr00: # re-using virsh net from cilium-srv6
+    k8s-egw-net2:
       kind: bridge
 
-    wkr00-net2:
+    k8s-wkr0:
       kind: bridge
 
   links:
     - endpoints: ["r00:eth1", "r02:eth1"]
     - endpoints: ["r00:eth2", "r03:eth1"]
     - endpoints: ["r00:eth3", "r04:eth1"]
-    - endpoints: ["r00:eth4", "r99:Gi0-0-0-0"]
 
     - endpoints: ["r01:eth1", "r02:eth2"]
     - endpoints: ["r01:eth2", "r03:eth2"]
     - endpoints: ["r01:eth3", "r04:eth2"]
-    - endpoints: ["r01:eth4", "r99:Gi0-0-0-1"]
     
-    - endpoints: ["r02:eth3", "cluster00-cp:r02-eth3"]
-    - endpoints: ["r03:eth3", "cluster00-wkr00:r03-eth3"]
-    - endpoints: ["r04:eth3", "cluster01-wkr00:r04-eth3"]
+    - endpoints: ["r02:eth3", "k8s-cp:r02-eth3"]
+    - endpoints: ["r02:eth4", "r05:Gi0-0-0-0"]
 
-    - endpoints: ["r04:eth4", "wkr00-net2:r04-eth4"]
+    - endpoints: ["r03:eth3", "k8s-egw-net1:r03-eth3"]
+
+    - endpoints: ["r04:eth3", "k8s-wkr0:r04-eth3"]
+    - endpoints: ["r04:eth4", "k8s-egw-net2:r04-eth4"]
 
 
 

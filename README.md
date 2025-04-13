@@ -1,8 +1,57 @@
-# cilium-egw
+## Cilium Egress Gateway Lab
 
-### Notes and rough instructions
+Table of Contents
 
-1. label worker node
+1. [Install Cilium](#install-cilium)
+2. [Install Cilium BGP](#install-cilium-bgp)
+3. [Install Cilium BGP](#install-cilium-bgp)
+4. [Install Cilium BGP](#install-cilium-bgp)
+5. [Install Cilium BGP](#install-cilium-bgp)
+
+### Topology
+
+Containerlab network topology:
+- Two Nexus 9000v spine nodes
+- Three Nexus 9000v leaf nodes
+- One XRd DCI node
+
+Ubuntu 22.04 VMs attached to the containerlab leaf nodes:
+- k8s-cp - kubernetes control plane node
+- k8s-wkr0 - kubernetes worker node
+- k8s-wkr1 - kubernetes worker node
+- k8s-egw - kubernetes/cilium egress gateway node
+
+![Lab Topology](./diagrams/topology.png)
+
+### cilium-bgpv2 directory
+- yaml files for deploying Cilium Enterprise CNI, BGP, and Egress Gateway
+
+### nx-config directory
+
+- Nexus 9000v configurations
+- Nexus nodes will boot with these configs on containerlab startup
+
+### vm-config directory
+
+- virsh XML files for defining linux bridge networks to interconnect the VMs with containerlab routers
+- virsh XML files defining the VMs themselves
+- etc/netplan files defining the VMs' network interfaces and routes
+
+### Instructions
+
+1. Acquire or construct Ubuntu 22.04 VMs 
+2. Define VM networks 
+```
+virsh net-define ./vm-config/vm-net.xml
+virsh net-start vm-net
+```
+
+
+3. Launch VMs with Virsh/Libvirt 
+4. Install Kubernetes on the VMs [Instructions](xtras/k8s-install.md)
+5. 
+
+6. label worker node
 ```
 kubectl label node cluster00-wkr00 egress-node=green
 ```

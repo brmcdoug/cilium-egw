@@ -1,0 +1,6 @@
+<network>
+  <name>k8s-cp-net</name>
+  <bridge name="k8s-cp-net" />
+  <forward mode="route" />
+  <ip address="10.10.10.3" netmask="255.255.255.0" />
+</network>

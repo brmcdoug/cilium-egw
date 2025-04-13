@@ -1,0 +1,6 @@
+<network>
+  <name>k8s-egw-net1</name>
+  <bridge name="k8s-egw-net1" />
+  <forward mode="route" />
+  <ip address="10.10.11.3" netmask="255.255.255.0" />
+</network>
