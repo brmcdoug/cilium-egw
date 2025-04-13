@@ -43,7 +43,7 @@ Ubuntu 22.04 VMs attached to the containerlab leaf nodes:
 2. Define VM networks and nodes
 ```
 cd vm-config
-./virsh-define.sh
+sudo ./virsh-define.sh
 ```
 
 3. Define and launch VMs with Virsh/Libvirt 
