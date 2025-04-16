@@ -60,26 +60,26 @@ sudo ./virsh-script.sh
 sudo containerlab deploy -t topology.yaml
 ```
 
-4. ssh to vms:
+4. You may need to access the VMs via their console/screenshare ports and apply netplan configs there prior to ssh'ing to them. If you use the netplans in this repo the ssh addresses will be:
 ```
 # k8s-cp
-ssh cisco@192.168.122.100
+ssh user@192.168.122.100
 
 # k8s-egw
-ssh cisco@192.168.122.101
+ssh user@192.168.122.101
 
 # k8s-wkr0
-ssh cisco@192.168.122.102
+ssh user@192.168.122.102
 ```
 
-5. Ping control plane node from egress gateway node and worker node
+5. Ping the k8s control plane node from egress gateway node and worker node
 ```
 ping 10.10.10.2
 ```
 
 ### Install Kubernetes
 
-1. Install kubeadm, kubelet, kubectl, and containerd on the VMs [Instructions](xtras/k8s-install.md)
+1. Install kubeadm, kubelet, kubectl, and containerd on each of the VMs [Instructions](xtras/k8s-install.md)
 
 2. Initialize the control plane node
 ```
@@ -87,7 +87,9 @@ cd vm-config
 sudo kubeadm init --config=k8s-cp-kubeadm-init.yaml
 ```
 
-3. Join the egress gateway node and worker node to the cluster
+1. Join the egress gateway node and worker node to the cluster 
+Note: you'll need to update the token and caCertHash values with the new values produced by kubeadm init on the control plane node
+
 ```
 # k8s-egw
 cd vm-config
@@ -168,17 +170,17 @@ kubectl apply -f 20-bgp-cluster.yaml
 kubectl annotate node k8s-egw cilium.io/bgp-virtual-router.65010="router-id=10.10.21.2"
 ```
 
-7. apply bgp peer config
+7. Apply bgp peer config
 ```
 kubectl apply -f 30-bgp-peer.yaml
 ```
 
-8. apply bgp advertisement config
+8. Apply bgp advertisement config
 ```
 kubectl apply -f 40-bgp-advert.yaml
 ```
 
-9. check bgp peers
+9. Check bgp peers, routes
 ```
 cilium bgp peers
 cilium bgp peers --node k8s-egw
@@ -203,19 +205,19 @@ k8s-egw   65010     192.150.9.124/32   0.0.0.0   30s   [{Origin: i} {Nexthop: 0.
 cisco@k8s-cp:~/cilium-egw/cilium-bgpv2$ 
 ```
 
-10. deploy test pods and namespaces
+10. Deploy test pods and namespaces
 ```
-kubectl apply -f 50-ns-pods.yaml
+kubectl apply -f 50-pods.yaml
 ```
 
-11. verify pods
+11. Verify pods
 ```
 kubectl get pods -A
 ```
 
 ### Test Egress Gateway
 
-1. exec into one of the blue pods
+1. Exec into one of the blue pods
 ```
 kubectl exec -it -n blue bluepod0 -- /bin/sh
 ```
@@ -251,8 +253,6 @@ listening on k8s-egw-net2, link-type EN10MB (Ethernet), snapshot length 262144 b
 20:53:36.523434 IP 192.150.9.124 > 10.0.0.5: ICMP echo request, id 36691, seq 1, length 64
 20:53:36.531602 IP 10.0.0.5 > 192.150.9.124: ICMP echo reply, id 36691, seq 1, length 64
 ```
-
-
 
 
 ## appendix, notes
