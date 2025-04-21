@@ -1,0 +1,365 @@
+apiVersion: v1
+items:
+- apiVersion: cilium.io/v2alpha1
+  kind: CiliumBGPPeeringPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v2alpha1","kind":"CiliumBGPPeeringPolicy","metadata":{"annotations":{},"name":"blue-egress"},"spec":{"nodeSelector":{"matchLabels":{"egressnode":"blue"}},"virtualRouters":[{"egressGatewayPolicySelector":{"matchLabels":{"advertise":"bgp-blue"}},"localASN":65001,"neighbors":[{"advertisedPathAttributes":[{"communities":{"standard":["64512:1","65000:1720","65000:5006","65004:9001"]},"selector":{"matchLabels":{"advertise":"bgp-blue"}},"selectorType":"IsovalentEgressGatewayPolicy"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.44/32"},{"advertisedPathAttributes":[{"communities":{"standard":["64512:1","65000:1720","65000:5006","65004:9001"]},"selector":{"matchLabels":{"advertise":"bgp-blue"}},"selectorType":"IsovalentEgressGatewayPolicy"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.45/32"}]}]}}
+    creationTimestamp: "2025-04-01T16:34:19Z"
+    generation: 1
+    name: blue-egress
+    resourceVersion: "1760136"
+    uid: 81516699-a9bb-4051-b848-b39c56aaad38
+  spec:
+    nodeSelector:
+      matchLabels:
+        egressnode: blue
+    virtualRouters:
+    - egressGatewayPolicySelector:
+        matchLabels:
+          advertise: bgp-blue
+      exportPodCIDR: false
+      localASN: 65001
+      neighbors:
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:1"
+            - 65000:1720
+            - 65000:5006
+            - 65004:9001
+          selector:
+            matchLabels:
+              advertise: bgp-blue
+          selectorType: IsovalentEgressGatewayPolicy
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.44/32
+        peerPort: 179
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:1"
+            - 65000:1720
+            - 65000:5006
+            - 65004:9001
+          selector:
+            matchLabels:
+              advertise: bgp-blue
+          selectorType: IsovalentEgressGatewayPolicy
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.45/32
+        peerPort: 179
+      serviceAdvertisements:
+      - LoadBalancerIP
+- apiVersion: cilium.io/v2alpha1
+  kind: CiliumBGPPeeringPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v2alpha1","kind":"CiliumBGPPeeringPolicy","metadata":{"annotations":{},"name":"blue-ingress"},"spec":{"nodeSelector":{"matchLabels":{"ingress":"blue"}},"virtualRouters":[{"localASN":65001,"neighbors":[{"advertisedPathAttributes":[{"communities":{"standard":["64512:1","65000:1720","65000:5006","65004:9001"]},"selector":{"matchLabels":{"ingress":"blue"}},"selectorType":"CiliumLoadBalancerIPPool"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.44/32"},{"advertisedPathAttributes":[{"communities":{"standard":["64512:1","65000:1720","65000:5006","65004:9001"]},"selector":{"matchLabels":{"ingress":"blue"}},"selectorType":"CiliumLoadBalancerIPPool"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.45/32"}],"serviceSelector":{"matchLabels":{"ingress":"blue"}}}]}}
+    creationTimestamp: "2025-04-01T16:34:36Z"
+    generation: 1
+    name: blue-ingress
+    resourceVersion: "1760299"
+    uid: e90c466a-80b9-4289-83a5-21c51f43c574
+  spec:
+    nodeSelector:
+      matchLabels:
+        ingress: blue
+    virtualRouters:
+    - exportPodCIDR: false
+      localASN: 65001
+      neighbors:
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:1"
+            - 65000:1720
+            - 65000:5006
+            - 65004:9001
+          selector:
+            matchLabels:
+              ingress: blue
+          selectorType: CiliumLoadBalancerIPPool
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.44/32
+        peerPort: 179
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:1"
+            - 65000:1720
+            - 65000:5006
+            - 65004:9001
+          selector:
+            matchLabels:
+              ingress: blue
+          selectorType: CiliumLoadBalancerIPPool
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.45/32
+        peerPort: 179
+      serviceAdvertisements:
+      - LoadBalancerIP
+      serviceSelector:
+        matchLabels:
+          ingress: blue
+- apiVersion: cilium.io/v2alpha1
+  kind: CiliumBGPPeeringPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v2alpha1","kind":"CiliumBGPPeeringPolicy","metadata":{"annotations":{},"name":"green-egress"},"spec":{"nodeSelector":{"matchLabels":{"egressnode":"green"}},"virtualRouters":[{"egressGatewayPolicySelector":{"matchLabels":{"advertise":"bgp-green"}},"localASN":65001,"neighbors":[{"advertisedPathAttributes":[{"communities":{"standard":["64512:5","65000:1730","65000:5006","65009:9003"]},"selector":{"matchLabels":{"advertise":"bgp-green"}},"selectorType":"IsovalentEgressGatewayPolicy"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.46/32"},{"advertisedPathAttributes":[{"communities":{"standard":["64512:5","65000:1730","65000:5006","65009:9003"]},"selector":{"matchLabels":{"advertise":"bgp-green"}},"selectorType":"IsovalentEgressGatewayPolicy"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.47/32"}]}]}}
+    creationTimestamp: "2025-04-01T16:34:19Z"
+    generation: 1
+    name: green-egress
+    resourceVersion: "1760135"
+    uid: 01da6017-7f71-4407-9780-964e7faf3ad1
+  spec:
+    nodeSelector:
+      matchLabels:
+        egressnode: green
+    virtualRouters:
+    - egressGatewayPolicySelector:
+        matchLabels:
+          advertise: bgp-green
+      exportPodCIDR: false
+      localASN: 65001
+      neighbors:
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:5"
+            - 65000:1730
+            - 65000:5006
+            - 65009:9003
+          selector:
+            matchLabels:
+              advertise: bgp-green
+          selectorType: IsovalentEgressGatewayPolicy
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.46/32
+        peerPort: 179
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:5"
+            - 65000:1730
+            - 65000:5006
+            - 65009:9003
+          selector:
+            matchLabels:
+              advertise: bgp-green
+          selectorType: IsovalentEgressGatewayPolicy
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.47/32
+        peerPort: 179
+      serviceAdvertisements:
+      - LoadBalancerIP
+- apiVersion: cilium.io/v2alpha1
+  kind: CiliumBGPPeeringPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v2alpha1","kind":"CiliumBGPPeeringPolicy","metadata":{"annotations":{},"name":"green-ingress"},"spec":{"nodeSelector":{"matchLabels":{"ingress":"green"}},"virtualRouters":[{"localASN":65001,"neighbors":[{"advertisedPathAttributes":[{"communities":{"standard":["64512:5","65000:1730","65000:5006","65009:9003"]},"selector":{"matchLabels":{"ingress":"green"}},"selectorType":"CiliumLoadBalancerIPPool"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.46/32"},{"advertisedPathAttributes":[{"communities":{"standard":["64512:5","65000:1730","65000:5006","65009:9003"]},"selector":{"matchLabels":{"ingress":"green"}},"selectorType":"CiliumLoadBalancerIPPool"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.47/32"}],"serviceSelector":{"matchLabels":{"ingress":"green"}}}]}}
+    creationTimestamp: "2025-04-01T16:34:36Z"
+    generation: 1
+    name: green-ingress
+    resourceVersion: "1760298"
+    uid: a0367ed3-44f0-4cc9-acbb-b4a01e348b5c
+  spec:
+    nodeSelector:
+      matchLabels:
+        ingress: green
+    virtualRouters:
+    - exportPodCIDR: false
+      localASN: 65001
+      neighbors:
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:5"
+            - 65000:1730
+            - 65000:5006
+            - 65009:9003
+          selector:
+            matchLabels:
+              ingress: green
+          selectorType: CiliumLoadBalancerIPPool
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.46/32
+        peerPort: 179
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:5"
+            - 65000:1730
+            - 65000:5006
+            - 65009:9003
+          selector:
+            matchLabels:
+              ingress: green
+          selectorType: CiliumLoadBalancerIPPool
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.47/32
+        peerPort: 179
+      serviceAdvertisements:
+      - LoadBalancerIP
+      serviceSelector:
+        matchLabels:
+          ingress: green
+- apiVersion: cilium.io/v2alpha1
+  kind: CiliumBGPPeeringPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v2alpha1","kind":"CiliumBGPPeeringPolicy","metadata":{"annotations":{},"name":"red-egress"},"spec":{"nodeSelector":{"matchLabels":{"egressnode":"red"}},"virtualRouters":[{"egressGatewayPolicySelector":{"matchLabels":{"advertise":"bgp-red"}},"localASN":65001,"neighbors":[{"advertisedPathAttributes":[{"communities":{"standard":["64512:1","65000:1720","65000:5006","65004:9112"]},"selector":{"matchLabels":{"advertise":"bgp-red"}},"selectorType":"IsovalentEgressGatewayPolicy"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.42/32"},{"advertisedPathAttributes":[{"communities":{"standard":["64512:1","65000:1720","65000:5006","65004:9112"]},"selector":{"matchLabels":{"advertise":"bgp-red"}},"selectorType":"IsovalentEgressGatewayPolicy"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.43/32"}]}]}}
+    creationTimestamp: "2025-04-01T16:34:19Z"
+    generation: 1
+    name: red-egress
+    resourceVersion: "1760137"
+    uid: d6b8dff1-7c04-48ad-819c-3c1d14a350f5
+  spec:
+    nodeSelector:
+      matchLabels:
+        egressnode: red
+    virtualRouters:
+    - egressGatewayPolicySelector:
+        matchLabels:
+          advertise: bgp-red
+      exportPodCIDR: false
+      localASN: 65001
+      neighbors:
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:1"
+            - 65000:1720
+            - 65000:5006
+            - 65004:9112
+          selector:
+            matchLabels:
+              advertise: bgp-red
+          selectorType: IsovalentEgressGatewayPolicy
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.42/32
+        peerPort: 179
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:1"
+            - 65000:1720
+            - 65000:5006
+            - 65004:9112
+          selector:
+            matchLabels:
+              advertise: bgp-red
+          selectorType: IsovalentEgressGatewayPolicy
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.43/32
+        peerPort: 179
+      serviceAdvertisements:
+      - LoadBalancerIP
+- apiVersion: cilium.io/v2alpha1
+  kind: CiliumBGPPeeringPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v2alpha1","kind":"CiliumBGPPeeringPolicy","metadata":{"annotations":{},"name":"red-ingress"},"spec":{"nodeSelector":{"matchLabels":{"ingress":"red"}},"virtualRouters":[{"localASN":65001,"neighbors":[{"advertisedPathAttributes":[{"communities":{"standard":["64512:1","65000:1720","65000:5006","65004:9112"]},"selector":{"matchLabels":{"ingress":"red"}},"selectorType":"CiliumLoadBalancerIPPool"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.42/32"},{"advertisedPathAttributes":[{"communities":{"standard":["64512:1","65000:1720","65000:5006","65004:9112"]},"selector":{"matchLabels":{"ingress":"red"}},"selectorType":"CiliumLoadBalancerIPPool"}],"eBGPMultihopTTL":5,"peerASN":65000,"peerAddress":"10.27.245.43/32"}],"serviceSelector":{"matchLabels":{"ingress":"red"}}}]}}
+    creationTimestamp: "2025-04-01T16:34:36Z"
+    generation: 1
+    name: red-ingress
+    resourceVersion: "1760300"
+    uid: 90cb3871-1cc9-4f0c-85fe-09691dd285d5
+  spec:
+    nodeSelector:
+      matchLabels:
+        ingress: red
+    virtualRouters:
+    - exportPodCIDR: false
+      localASN: 65001
+      neighbors:
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:1"
+            - 65000:1720
+            - 65000:5006
+            - 65004:9112
+          selector:
+            matchLabels:
+              ingress: red
+          selectorType: CiliumLoadBalancerIPPool
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.42/32
+        peerPort: 179
+      - advertisedPathAttributes:
+        - communities:
+            standard:
+            - "64512:1"
+            - 65000:1720
+            - 65000:5006
+            - 65004:9112
+          selector:
+            matchLabels:
+              ingress: red
+          selectorType: CiliumLoadBalancerIPPool
+        connectRetryTimeSeconds: 120
+        eBGPMultihopTTL: 5
+        holdTimeSeconds: 90
+        keepAliveTimeSeconds: 30
+        peerASN: 65000
+        peerAddress: 10.27.245.43/32
+        peerPort: 179
+      serviceAdvertisements:
+      - LoadBalancerIP
+      serviceSelector:
+        matchLabels:
+          ingress: red
+kind: List
+metadata:
+  resourceVersion: ""
