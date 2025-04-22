@@ -12,9 +12,10 @@ spec:
   egressGroups:
   - nodeSelector:
       matchLabels:
-        egressnode: green
+        egressnode: "green"
   selectors:
   - podSelector:
       matchLabels:
         io.kubernetes.pod.namespace: blue
 
+ 

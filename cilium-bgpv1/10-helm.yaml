@@ -1,10 +1,13 @@
 cilium:
+  MTU: 1500
+  agentNotReadyTaintKey: CiliumIsDown
   bgpControlPlane:
     enabled: true
   bpf:
     masquerade: true
   debug:
     enabled: true
+    verbose: flow,datapath,envoy,policy
   egressGateway:
     enabled: true
     installRoutes: true
@@ -16,14 +19,19 @@ cilium:
   gatewayAPI:
     enabled: true
   hubble:
-    enabled: false
+    enabled: true
     relay:
-      enabled: false
-  nodeinit:
-    enabled: true
-  ipv6:
-    enabled: true
+      enabled: true
   ipam:
     mode: kubernetes
   kubeProxyReplacement: "true"
-
+  nodePort:
+    enabled: true
+  nodeinit:
+    enabled: true
+  operator:
+    enabled: true
+hubble-enterprise:
+  enabled: false
+hubble-ui:
+  enabled: false
