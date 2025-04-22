@@ -1,6 +1,4 @@
 cilium:
-  #MTU: 1500
-  #agentNotReadyTaintKey: CiliumIsDown
   bgpControlPlane:
     enabled: true
   bpf:
@@ -19,6 +17,12 @@ cilium:
     enabled: true
   hubble:
     enabled: false
+    relay:
+      enabled: false
+  nodeinit:
+    enabled: true
+  ipv6:
+    enabled: true
   ipam:
     mode: kubernetes
   kubeProxyReplacement: "true"
