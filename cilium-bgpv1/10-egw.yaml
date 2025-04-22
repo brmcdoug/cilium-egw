@@ -11,21 +11,9 @@ spec:
         io.kubernetes.pod.namespace: blue
   destinationCIDRs:
   - "0.0.0.0/0"
-  excludedCIDRs:
-  - "10.200.0.0/16"
   egressCIDRs:
   - "192.150.9.124/31"
   egressGroups:
     - nodeSelector:
         matchLabels:
           egress-node: "green"   
-
-  # selectors:
-  # - namespaceSelector:
-  #     matchExpressions:
-  #     - key: kubernetes.io/metadata.name
-  #       operator: In
-  #       values:
-  #       - blue
-  #       - red
-  #       - orange
