@@ -5,7 +5,7 @@ metadata:
 spec:
   nodeSelector:
     matchLabels:
-      egressnode: green
+      egress-node: green
   virtualRouters:
   - egressGatewayPolicySelector:
       matchLabels:
