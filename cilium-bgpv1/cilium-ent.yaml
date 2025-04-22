@@ -16,6 +16,10 @@ egressGateway:
 enterprise:
   egressGatewayHA:
     enabled: true
+  featureGate:
+    approved:
+    - EgressGatewayHA
+    - EgressGatewayIPv4
 bgpControlPlane:
   enabled: true
 envoy:
