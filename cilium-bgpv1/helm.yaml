@@ -1,37 +1,38 @@
-cilium:
-  MTU: 1500
-  agentNotReadyTaintKey: CiliumIsDown
-  bgpControlPlane:
+MTU: 1500
+agentNotReadyTaintKey: CiliumIsDown
+bgpControlPlane:
+  enabled: true
+bpf:
+  masquerade: true
+debug:
+  enabled: true
+ipv6:
+  enabled: true
+egressGateway:
+  enabled: true
+  installRoutes: true
+enterprise:
+  egressGatewayHA:
     enabled: true
-  bpf:
-    masquerade: true
-  debug:
-    enabled: true
-    verbose: flow,datapath,envoy,policy
-  egressGateway:
-    enabled: true
-    installRoutes: true
-  enterprise:
-    egressGatewayHA:
-      enabled: true
-  envoy:
-    enabled: true
-  gatewayAPI:
-    enabled: true
-  hubble:
-    enabled: true
-    relay:
-      enabled: true
-  ipam:
-    mode: kubernetes
-  kubeProxyReplacement: "true"
-  nodePort:
-    enabled: true
-  nodeinit:
-    enabled: true
-  operator:
-    enabled: true
-hubble-enterprise:
+  featureGate:
+    approved:
+    - EgressGatewayHA
+    - EgressGatewayIPv4
+envoy:
+  enabled: true
+hubble:
   enabled: false
-hubble-ui:
-  enabled: false
+  relay:
+    enabled: false
+nodePort:
+  enabled: true
+nodeinit:
+  enabled: true
+gatewayAPI:
+  enabled: true
+kubeProxyReplacement: "true"
+k8s:
+  requireIPv4PodCIDR: true
+  requireIPv6PodCIDR: true
+ipam:
+  mode: kubernetes

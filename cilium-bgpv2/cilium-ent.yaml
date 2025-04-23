@@ -9,7 +9,7 @@ debug:
 ipv6:
   enabled: true
 bpf:
-  masquerade: true  # Default to 'false'.
+  masquerade: true  
 egressGateway:
   enabled: true
   installRoutes: true

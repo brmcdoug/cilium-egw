@@ -1,28 +1,35 @@
-hubble:
-  enabled: false
-  relay:
-    enabled: false
-nodeinit:
-  enabled: true
-debug:
+MTU: 1500
+agentNotReadyTaintKey: CiliumIsDown
+bgpControlPlane:
   enabled: true
 bpf:
   masquerade: true
+debug:
+  enabled: true
 ipv6:
   enabled: true
 egressGateway:
   enabled: true
   installRoutes: true
 enterprise:
-  egressGatewayHA:
-    enabled: true
   featureGate:
     approved:
+    - EnterpriseBGPControlPlane
     - EgressGatewayHA
     - EgressGatewayIPv4
-bgpControlPlane:
-  enabled: true
+  egressGatewayHA:
+    enabled: true 
+  bgpControlPlane:
+    enabled: true
 envoy:
+  enabled: true
+hubble:
+  enabled: false
+  relay:
+    enabled: false
+nodePort:
+  enabled: true
+nodeinit:
   enabled: true
 gatewayAPI:
   enabled: true
