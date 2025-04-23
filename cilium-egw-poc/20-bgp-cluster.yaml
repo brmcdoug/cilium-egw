@@ -1,0 +1,20 @@
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPClusterConfig
+metadata:
+  name: green-egress
+spec:
+  nodeSelector:
+    matchLabels:
+      egress-node: "green"
+  bgpInstances:
+  - name: "instance-green"
+    localASN: 65001
+    peers:
+    - name: "DCI"
+      peerASN: 65000
+      peerAddress: 10.27.245.46
+      peerConfigRef:
+        name: "cilium-peer"
+
+
+

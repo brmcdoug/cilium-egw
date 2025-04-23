@@ -1,16 +1,16 @@
 apiVersion: isovalent.com/v1alpha1
 kind: IsovalentBGPClusterConfig
 metadata:
-  name: k8s-egw
+  name: green-egress
 spec:
   nodeSelector:
     matchLabels:
       egress-node: "green"
   bgpInstances:
-  - name: "instance-65010"
+  - name: "instance-green"
     localASN: 65010
     peers:
-    - name: "r05"
+    - name: "DCI"
       peerASN: 65005
       peerAddress: 10.0.0.5
       peerConfigRef:

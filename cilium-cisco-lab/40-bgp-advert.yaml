@@ -1,0 +1,19 @@
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPAdvertisement
+metadata:
+  name: bgp-green
+  labels:
+    advertise: bgp-green
+spec:
+  advertisements:
+    - advertisementType: "EgressGateway"
+      selector:            
+        matchExpressions:
+          - { key: advertise, operator: In, values: [ bgp-green ] }
+      attributes:
+        communities:
+          standard: 
+          - 64512:5
+          - 65000:1730
+          - 65000:5006
+          - 65009:9003

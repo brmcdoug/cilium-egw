@@ -16,7 +16,7 @@ spec:
     - advertisedPathAttributes:
       - communities:
           standard:
-          - "64512:5"
+          - 64512:5
           - 65000:1730
           - 65000:5006
           - 65009:9003
