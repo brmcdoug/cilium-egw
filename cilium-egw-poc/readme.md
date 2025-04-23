@@ -8,7 +8,7 @@ kubectl delete -f <filename.yaml>
 helm uninstall <release name> -n kube-system
 ```
 
-2. Re-install Cilium using updated helm values format - note, BGP Control Plane has been moved to the "Enterprise" section in the yaml file [link](./helm-values.yaml#L12)
+2. Re-install Cilium using updated helm values format - note, BGP Control Plane has been moved to the "Enterprise" section in the yaml file [link](./helm-values.yaml#L13)
 ```
 helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f  helm-values.yaml 
 ```
