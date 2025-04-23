@@ -1,7 +1,5 @@
 MTU: 1500
 agentNotReadyTaintKey: CiliumIsDown
-bgpControlPlane:
-  enabled: true
 bpf:
   masquerade: true
 debug:
