@@ -55,6 +55,12 @@ topology:
     k8s-egw-net2:
       kind: bridge
 
+    k8s-egw-blue-net1:
+      kind: bridge
+
+    k8s-egw-blue-net2:
+      kind: bridge
+
     k8s-wkr0-net:
       kind: bridge
 
@@ -69,11 +75,13 @@ topology:
     
     - endpoints: ["r02:eth3", "k8s-cp-net:r02-eth3"]
     - endpoints: ["r02:eth4", "r05:Gi0-0-0-0"]
+    - endpoints: ["r02:eth5", "r05:Gi0-0-0-1"]
 
     - endpoints: ["r03:eth3", "k8s-egw-net1:r03-eth3"]
+    - endpoints: ["r03:eth4", "k8s-egw-blue-net1:r03-eth4"]
 
     - endpoints: ["r04:eth3", "k8s-wkr0-net:r04-eth3"]
     - endpoints: ["r04:eth4", "k8s-egw-net2:r04-eth4"]
-
+    - endpoints: ["r04:eth5", "k8s-egw-blue-net2:r04-eth5"]
 
 

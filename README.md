@@ -37,6 +37,7 @@ Ubuntu 22.04 VMs attached to the containerlab leaf nodes:
 
 - Nexus 9000v configurations
 - Nexus nodes will boot with these configs on containerlab startup
+- User/PW = admin/admin
 
 ### vm-config directory
 
