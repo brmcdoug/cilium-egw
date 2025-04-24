@@ -19,14 +19,23 @@ helm get values cilium -n kube-system
 kubectl get pods -n kube-system
 ```
 
+### untested - re-apply old load balancer/service and ingress BGP CRDs
+Note: as of 4/24/2025 ingress yaml file translation is still under construction...however, if ingress is working with BGPv1 then translation to BGPv2 is not urgent
+
+### reinstall egress GW with egress BGPv2
+
 4. Apply Cilium egress gateway policy yaml
 ```
-kubectl apply -f 10-egw.yaml
+kubectl apply -f 10-egw-green.yaml
+kubectl apply -f 11-egw-blue.yaml
+kubectl apply -f 12-egw-red.yaml
 ```
 
 5. Verify EGW:
 ```
 kubectl edit IsovalentEgressGatewayPolicy egress-green
+kubectl edit IsovalentEgressGatewayPolicy egress-blue
+kubectl edit IsovalentEgressGatewayPolicy egress-red
 ```
 
 I scroll down and look for something like this:
@@ -70,17 +79,21 @@ cisco@k8s-egw:~$ ip addr show dev ens5
 
 7. Apply BGP cluster config:
 ```
-kubectl apply -f 20-bgp-cluster.yaml 
+kubectl apply -f 20-bgp-cluster-green.yaml 
+kubectl apply -f 21-bgp-cluster-blue.yaml
+kubectl apply -f 22-bgp-cluster-red.yaml  
 ```
 
-8. Apply BGP peer config:
+8. Apply BGP peer config (this config is very short so I put green, blue, and red in one file):
 ```
 kubectl apply -f 30-bgp-peer.yaml 
 ```
 
 9. Apply BGP advertisement
 ```
-kubectl apply -f 40-bgp-advert.yaml 
+kubectl apply -f 40-bgp-advert-green.yaml 
+kubectl apply -f 41-bgp-advert-blue.yaml 
+kubectl apply -f 42-bgp-advert-red.yaml 
 ```
 
 10. Verify BGP peer session established and Cilium is advertising the VIP route:
@@ -120,4 +133,13 @@ listening on ens5, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 20:57:01.947628 IP 10.0.0.5 > 192.150.9.124: ICMP echo reply, id 39110, seq 7, length 64
 20:57:02.239077 IP 192.150.9.124 > 10.0.0.5: ICMP echo request, id 39110, seq 8, length 64
 20:57:02.247122 IP 10.0.0.5 > 192.150.9.124: ICMP echo reply, id 39110, seq 8, length 64
+```
+
+
+### Appendix
+
+```
+helm uninstall cilium -n kube-system
+
+helm upgrade cilium isovalent/cilium --namespace kube-system -f helm-values-test.yaml 
 ```

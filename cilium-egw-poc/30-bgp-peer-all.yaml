@@ -1,0 +1,40 @@
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPPeerConfig
+metadata:
+  name: green-peer
+spec:
+  ebgpMultihop: 5
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: "bgp-green"  
+
+---
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPPeerConfig
+metadata:
+  name: blue-peer
+spec:
+  ebgpMultihop: 5
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: "bgp-blue"
+
+---
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPPeerConfig
+metadata:
+  name: red-peer
+spec:
+  ebgpMultihop: 5
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:  
+          advertise: "bgp-red"

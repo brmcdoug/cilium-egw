@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    gateway: green
+    ingress: green
+  name: envoy-loadbalancer-public-svc
+  namespace: heptio-contour
+  resourceVersion: "78987"
+  uid: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 192.168.158.134
+  clusterIPs:
+  - 192.168.158.134
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
+  ports:
+  - name: http
+    nodePort: 30819
+    port: 80
+    protocol: TCP
+    targetPort: 6000
+  - name: https
+    nodePort: 32690
+    port: 443
+    protocol: TCP
+    targetPort: 6001
+  selector:
+    app: envoy
+  sessionAffinity: None
+  type: LoadBalancer

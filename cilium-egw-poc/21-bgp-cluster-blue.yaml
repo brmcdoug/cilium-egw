@@ -1,0 +1,25 @@
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPClusterConfig
+metadata:
+  name: blue-egress
+spec:
+  nodeSelector:
+    matchLabels:
+      egress-node: "blue"
+  bgpInstances:
+  - name: "instance-blue"
+    localASN: 65001
+    peers:
+    - name: "DCI-1"
+      peerASN: 65000
+      peerAddress: 10.27.245.44
+      peerConfigRef:
+        name: "blue-peer"
+    - name: "DCI-2"
+      peerASN: 65000
+      peerAddress: 10.27.245.45
+      peerConfigRef:
+        name: "blue-peer"
+
+
+

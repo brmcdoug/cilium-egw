@@ -1,0 +1,25 @@
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPClusterConfig
+metadata:
+  name: red-egress
+spec:
+  nodeSelector:
+    matchLabels:
+      egress-node: "red"
+  bgpInstances:
+  - name: "instance-red"
+    localASN: 65001
+    peers:
+    - name: "DCI-1"
+      peerASN: 65000
+      peerAddress: 10.27.245.42
+      peerConfigRef:
+        name: "red-peer"
+    - name: "DCI-2"
+      peerASN: 65000
+      peerAddress: 10.27.245.43
+      peerConfigRef:
+        name: "red-peer"
+
+
+

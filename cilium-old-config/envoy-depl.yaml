@@ -1,0 +1,277 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: envoy
+    controller: kapcom
+    pod-anti-affinity: heptio-contour-envoy
+    scope: ""
+  name: envoy
+  namespace: heptio-contour
+  uid: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 6
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: envoy
+      scope: ""
+  strategy:
+    rollingUpdate:
+      maxSurge: 10%
+      maxUnavailable: 5%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      creationTimestamp: null
+      labels:
+        app: envoy
+        controller: kapcom
+        pod-anti-affinity: heptio-contour-envoy
+        scope: ""
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/os
+                operator: In
+                values:
+                - linux
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - envoy
+              - key: colocate
+                operator: DoesNotExist
+            topologyKey: kubernetes.io/hostname
+          - labelSelector:
+              matchExpressions:
+              - key: pod-anti-affinity
+                operator: In
+                values:
+                - heptio-contour-envoy
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - command:
+        - sh
+        - -c
+        - while read assignment; do export $assignment; done < /etc/nodeinfo; while
+          read assignment; do export $(eval echo $assignment); done < /etc/kubelet;
+          /init /fluent-bit/bin/fluent-bit -c /fluent-bit/etc/fluent-bit-sidecar-platformlog-envoy.conf
+        env:
+        - name: ENABLE_METRICS
+          value: "Off"
+        - name: SPLUNK_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: token
+              name: splunk-token
+        - name: POD_UID_FB
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.uid
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: NODE_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: PROVIDER
+          value: datacenter
+        - name: ETHOS_CLUSTER
+          value: ethos11devut1
+        - name: CONFIG_HASH
+          value: ff00cbc39672ad04100a3a0cee77cad8af072db265263bf89d60193b43062096
+        - name: SPLUNK_HOST
+          value: splunk-hec-ext.adobe.net
+        - name: SPLUNK_PORT
+          value: "443"
+        - name: SPLUNK_TLS
+          value: "On"
+        - name: SPLUNK_INDEX
+          value: dx_ethos_kubernetes_nonprod
+        - name: PLATFORM_LOG_FILTER
+          value: not2xx
+        - name: SPLUNK_TOKEN_SPLUNK_HEC_EXT
+          valueFrom:
+            secretKeyRef:
+              key: token
+              name: splunk-token-splunk-hec-ext
+        image: docker-k8s-infrastructure-public-release.dr-uw2.adobeitc.com/fluent/fluent-bit:1.9.2-0.7.0-adobe
+        imagePullPolicy: IfNotPresent
+        name: fluent-bit
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 20m
+            memory: 80Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /logging-volume
+          mountPropagation: HostToContainer
+          name: logging-volume
+        - mountPath: /var/fluent-bit
+          name: fluent-data
+        - mountPath: /fluent-bit/etc
+          name: fluent-bit-config
+          readOnly: true
+        - mountPath: /etc/nodeinfo
+          name: nodeinfo
+          readOnly: true
+        - mountPath: /etc/kubelet
+          name: kubelet
+          readOnly: true
+      - args:
+        - --config-path /config/envoy.yaml
+        - --service-node $(POD_NAME)
+        - --service-cluster cluster-gateway
+        - --log-level info
+        - --drain-time-s 300
+        - --parent-shutdown-time-s 600
+        - --base-id 12008
+        command:
+        - envoy
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: RESTART_ENVOY_DEPLOYMENT
+          value: https://cloud-technology.slack.com/archives/C03MCHZBBFC/p1659125200471419
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.uid
+        image: docker-k8s-infrastructure-public-release.dr-uw2.adobeitc.com/envoyproxy/envoy:v1.26.6-2.14.2-adobe
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /scripts/drain.sh
+              - "4000"
+              - "120"
+        name: envoy
+        ports:
+        - containerPort: 4001
+          hostPort: 4001
+          name: stats
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /envoy_health_94eaa5a6ba44fc17d1da432d4a1e2d73
+            port: 6004
+            scheme: HTTP
+        resources:
+          limits:
+            memory: "32212254720"
+          requests:
+            cpu: "4"
+            memory: 1Gi
+        startupProbe:
+          failureThreshold: 120
+          httpGet:
+            path: /envoy_health_94eaa5a6ba44fc17d1da432d4a1e2d73
+            port: 6004
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 6
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /config
+          name: envoy-config-volume
+        - mountPath: /scripts
+          name: envoy-scripts-volume
+        - mountPath: /var/log/envoy
+          name: profiling-volume
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "1"
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: false
+      imagePullSecrets:
+      - name: k8s-infrastructure-public
+      priorityClassName: ethos-critical-nonpreempting
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: envoy
+      serviceAccountName: envoy
+      terminationGracePeriodSeconds: 420
+      tolerations:
+      - key: node.cloudprovider.kubernetes.io/uninitialized
+        operator: Exists
+      volumes:
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: envoy.yaml
+            path: envoy.yaml
+          name: envoy-configmap
+        name: envoy-config-volume
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: drain.sh
+            mode: 484
+            path: drain.sh
+          name: envoy-configmap
+        name: envoy-scripts-volume
+      - hostPath:
+          path: /var/run/envoy
+          type: DirectoryOrCreate
+        name: profiling-volume
+      - emptyDir: {}
+        name: logging-volume
+      - emptyDir: {}
+        name: fluent-data
+      - configMap:
+          defaultMode: 420
+          name: fluent-bit-config-platformlog
+        name: fluent-bit-config
+      - hostPath:
+          path: /etc/ethos/nodeinfo
+          type: ""
+        name: nodeinfo
+      - hostPath:
+          path: /etc/ethos/kubelet
+          type: ""
+        name: kubelet
