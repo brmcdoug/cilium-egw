@@ -46,7 +46,7 @@
     </interface>
     <interface type='network'>
       <mac address="52:54:ab:bb:bb:02"/>   
-      <source network='k8s-egw-blue-net1' bridge='k8s-egw-blue-net1'/>
+      <source network='k8s-blue-net1' bridge='k8s-blue-net1'/>
       <target dev='vnet1'/>
       <model type='virtio'/>
       <alias name='net0'/>
@@ -54,7 +54,7 @@
     </interface>
     <interface type='network'>
       <mac address="52:54:ab:bb:bb:03"/>   
-      <source network='k8s-egw-blue-net2' bridge='k8s-egw-blue-net2'/>
+      <source network='k8s-blue-net2' bridge='k8s-blue-net2'/>
       <target dev='vnet2'/>
       <model type='virtio'/>
       <alias name='net2'/>
