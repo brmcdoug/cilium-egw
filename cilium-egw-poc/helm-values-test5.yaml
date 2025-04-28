@@ -1,3 +1,5 @@
+# operator commented out - this one works
+
 MTU: 1500
 agentNotReadyTaintKey: CiliumIsDown
 bpf:
