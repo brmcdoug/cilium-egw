@@ -9,4 +9,4 @@ discovery:
 nodeRegistration:
   kubeletExtraArgs:
   - name: "node-ip"
-    value: "10.10.12.2,fc00:0:1002::2"
+    value: "10.10.12.2"

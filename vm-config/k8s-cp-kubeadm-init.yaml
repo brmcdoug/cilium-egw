@@ -2,8 +2,8 @@
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: ClusterConfiguration
 networking:
-  podSubnet: 10.200.0.0/16,2001:db8:42:0::/56
-  serviceSubnet: 10.96.0.0/16,2001:db8:42:1::/112
+  podSubnet: 172.16.0.0/16
+  serviceSubnet: 10.96.0.0/16
 ---
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: InitConfiguration
@@ -13,4 +13,4 @@ localAPIEndpoint:
 nodeRegistration:
   kubeletExtraArgs:
   - name: "node-ip"
-    value: "10.10.10.2,fc00:0:1000::2"
+    value: "10.10.10.2"

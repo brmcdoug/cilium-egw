@@ -35,7 +35,6 @@ gatewayAPI:
 kubeProxyReplacement: "true"
 k8s:
   requireIPv4PodCIDR: true
-  requireIPv6PodCIDR: true
 ipam:
   #mode: kubernetes
   mode: "cluster-pool"
