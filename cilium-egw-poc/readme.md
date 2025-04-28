@@ -11,6 +11,11 @@ helm uninstall <release name> -n kube-system
 2. Re-install Cilium using updated helm values format - note, BGP Control Plane has been moved to the "Enterprise" section in the yaml file [link](./helm-values.yaml#L13)
 ```
 helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f  helm-values.yaml 
+
+# in my lab:
+
+helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f  helm-values-test.yaml
+
 ```
 
 3. Check helm values and that all Cilium agent pods are up
@@ -19,8 +24,17 @@ helm get values cilium -n kube-system
 kubectl get pods -n kube-system
 ```
 
+4. label EGW nodes:
+```
+kubectl label node k8s-egw-green egressnode=green
+kubectl label node k8s-egw-blue egressnode=blue
+```
+
 ### untested - re-apply old load balancer/service and ingress BGP CRDs
-Note: as of 4/24/2025 ingress yaml file translation is still under construction...however, if ingress is working with BGPv1 then translation to BGPv2 is not urgent
+
+ - Note: as of 4/24/2025 ingress yaml file translation is still under construction...however, if ingress is working with BGPv1 then translation to BGPv2 is not urgent
+
+ - Note: as of 4/27/2025 testing I've not applied any ingress CRDs, only egress blue and green, which are both working
 
 ### reinstall egress GW with egress BGPv2
 
@@ -28,35 +42,14 @@ Note: as of 4/24/2025 ingress yaml file translation is still under construction.
 ```
 kubectl apply -f 10-egw-green.yaml
 kubectl apply -f 11-egw-blue.yaml
-kubectl apply -f 12-egw-red.yaml
 ```
 
 5. Verify EGW:
 ```
-kubectl edit IsovalentEgressGatewayPolicy egress-green
-kubectl edit IsovalentEgressGatewayPolicy egress-blue
-kubectl edit IsovalentEgressGatewayPolicy egress-red
+kubectl get node -l egressnode=green
+kubectl get node -l egressnode=blue
+kubectl get IsovalentEgressGatewayPolicy -oyaml
 ```
-
-I scroll down and look for something like this:
-```
-status:
-  conditions:
-  - lastTransitionTime: "2025-04-23T03:36:05Z"
-    message: allocation requests satisfied
-    observedGeneration: 1
-    reason: noreason
-    status: "True"
-    type: isovalent.com/IPAMRequestSatisfied
-  groupStatuses:
-  - activeGatewayIPs:
-    - 10.10.11.2
-    egressIPByGatewayIP:
-      10.10.11.2: 192.150.9.124       <-----------------
-    healthyGatewayIPs:
-    - 10.10.11.2
-  observedGeneration: 1
-  ```
 
 6. Verify VIP/2ndary IP address on egress gateway worker node
 ```
@@ -81,22 +74,26 @@ cisco@k8s-egw:~$ ip addr show dev ens5
 ```
 kubectl apply -f 20-bgp-cluster-green.yaml 
 kubectl apply -f 21-bgp-cluster-blue.yaml
-kubectl apply -f 22-bgp-cluster-red.yaml  
 ```
 
-8. Apply BGP peer config (this config is very short so I put green, blue, and red in one file):
+8. Annotate EGW nodes to set BGP router-id:
+```
+kubectl annotate node k8s-egw-green cilium.io/bgp-virtual-router.65001="router-id=10.10.21.2"
+kubectl annotate node k8s-egw-blue cilium.io/bgp-virtual-router.65001="router-id=10.10.23.2"
+```
+
+9.  Apply BGP peer config (this config is very short so I put green, blue, and red in one file):
 ```
 kubectl apply -f 30-bgp-peer.yaml 
 ```
 
-9. Apply BGP advertisement
+1o. Apply BGP advertisement
 ```
 kubectl apply -f 40-bgp-advert-green.yaml 
 kubectl apply -f 41-bgp-advert-blue.yaml 
-kubectl apply -f 42-bgp-advert-red.yaml 
 ```
 
-10. Verify BGP peer session established and Cilium is advertising the VIP route:
+11.  Verify BGP peer session established and Cilium is advertising the VIP route:
 ```
 cilium bgp peers
 cilium bgp routes
@@ -104,35 +101,56 @@ cilium bgp routes
 
 Example output:
 ```
-cisco@k8s-cp:~/cilium-egw/cilium-cisco-lab$ cilium bgp peers
-Node      Local AS   Peer AS   Peer Address   Session State   Uptime   Family         Received   Advertised
-k8s-egw   65010      65005     10.0.0.5       established     16m16s   ipv4/unicast   2          1    
-cisco@k8s-cp:~/cilium-egw/cilium-cisco-lab$ cilium bgp routes
+cisco@k8s-cp:~/cilium-egw/cilium-egw-poc$ cilium bgp peers
+Node            Local AS   Peer AS   Peer Address   Session State   Uptime   Family         Received   Advertised
+k8s-egw-blue    65001      65000     10.27.245.44   established     20m58s   ipv4/unicast   5      1    
+                65001      65000     10.27.245.45   active          0s       ipv4/unicast   0      0    
+k8s-egw-green   65001      65000     10.27.245.46   established     12m30s   ipv4/unicast   6      1    
+                65001      65000     10.27.245.47   active          0s       ipv4/unicast   0      0    
+cisco@k8s-cp:~/cilium-egw/cilium-egw-poc$ cilium bgp routes
 (Defaulting to `available ipv4 unicast` routes, please see help for more options)
 
-Node      VRouter   Prefix             NextHop   Age      Attrs
-k8s-egw   65010     192.150.9.124/32   0.0.0.0   16m25s   [{Origin: i} {Nexthop: 0.0.0.0}]   
+Node            VRouter   Prefix             NextHop   Age     Attrs
+k8s-egw-blue    65001     10.27.248.0/32     0.0.0.0   21m9s   [{Origin: i} {Nexthop: 0.0.0.0}]   
+k8s-egw-green   65001     192.150.9.124/32   0.0.0.0   9m39s   [{Origin: i} {Nexthop: 0.0.0.0}]  
 ```
 
-11. Test connectivity to DCI/Internet - for this I exec into one of my 'blue' namespace pods and simply ping the DCI:
+12.  Test connectivity to DCI/Blue 10.0.0.0/8 
 ```
-kubectl exec -it -n blue bluepod0 -- ping 10.0.0.5
+kubectl exec -it -n testns testpod1 -- ping 10.0.0.5 -c 2
 ```
 
-12. Verify outbound NAT/PAT - I run a tcpdump on the egress gateway worker node 'ens224' equivalent:
+12.  Test connectivity to DCI/Green Internet
+```
+kubectl exec -it -n testns testpod1 -- ping 5.5.5.5 -c 2
+```
+
+14.  Verify outbound NAT/PAT - I run a tcpdump on the egress gateway worker node 'ens224' equivalent:
 ```
 tcpdump -ni ens224
 ```
 
 Example:
 ```
-cisco@k8s-egw:~$ sudo tcpdump -ni ens5
+cisco@topology-host:~$ sudo tcpdump -ni k8s-blue-net2
 tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
-listening on ens5, link-type EN10MB (Ethernet), snapshot length 262144 bytes
-20:57:01.938024 IP 192.150.9.124 > 10.0.0.5: ICMP echo request, id 39110, seq 7, length 64
-20:57:01.947628 IP 10.0.0.5 > 192.150.9.124: ICMP echo reply, id 39110, seq 7, length 64
-20:57:02.239077 IP 192.150.9.124 > 10.0.0.5: ICMP echo request, id 39110, seq 8, length 64
-20:57:02.247122 IP 10.0.0.5 > 192.150.9.124: ICMP echo reply, id 39110, seq 8, length 64
+listening on k8s-blue-net2, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+04:03:59.977032 IP 10.10.23.2.58499 > 10.27.245.44.179: Flags [P.], seq 539837254:539837273, ack 2952658864, win 502, length 19: BGP
+04:04:00.187942 IP 10.27.245.44.179 > 10.10.23.2.58499: Flags [.], ack 19, win 31998, length 0
+^C
+2 packets captured
+2 packets received by filter
+0 packets dropped by kernel
+
+cisco@topology-host:~$ sudo tcpdump -ni k8s-green-net2
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on k8s-green-net2, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+04:04:06.627937 IP 192.150.9.124 > 5.5.5.5: ICMP echo request, id 48531, seq 10, length 64
+04:04:06.637071 IP 5.5.5.5 > 192.150.9.124: ICMP echo reply, id 48531, seq 10, length 64
+04:04:07.634030 IP 192.150.9.124 > 5.5.5.5: ICMP echo request, id 48531, seq 11, length 64
+04:04:07.645111 IP 5.5.5.5 > 192.150.9.124: ICMP echo reply, id 48531, seq 11, length 64
+04:04:08.628707 IP 192.150.9.124 > 5.5.5.5: ICMP echo request, id 48531, seq 12, length 64
+04:04:08.637804 IP 5.5.5.5 > 192.150.9.124: ICMP echo reply, id 48531, seq 12, length 64
 ```
 
 
