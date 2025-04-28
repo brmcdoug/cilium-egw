@@ -53,8 +53,8 @@ hubble:
     enabled: true
     prometheus:
       enabled: true
-      serviceMonitor:
-        enabled: true
+      # serviceMonitor:
+      #   enabled: true
     retryTimeout: 15s
 nodePort:
   enabled: true
