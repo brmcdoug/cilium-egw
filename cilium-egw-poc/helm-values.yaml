@@ -1,3 +1,5 @@
+# operator commented out
+
 MTU: 1500
 agentNotReadyTaintKey: CiliumIsDown
 bpf:
@@ -73,12 +75,12 @@ ipam:
     clusterPoolIPv4PodCIDRList: ["172.16.0.0/16"]
 k8sServiceHost: apiserver-ethos11-dev-ut1.ethos.adobe.net
 k8sServicePort: 443
-operator:
-  enabled: true
-  prometheus:
-    enabled: true
-    serviceMonitor:
-      enabled: true
+# operator:
+#   enabled: true
+#   prometheus:
+#     enabled: true
+#     serviceMonitor:
+#       enabled: true
 prometheus:
   enabled: true
   serviceMonitor:
