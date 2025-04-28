@@ -11,10 +11,10 @@ virsh net-define k8s-wkr0-net.xml
 
 # start the networks
 virsh net-start k8s-cp-net
-virsh net-start k8s-egw-blue-net1
-virsh net-start k8s-egw-blue-net2
-virsh net-start k8s-egw-green-net1
-virsh net-start k8s-egw-green-net2
+virsh net-start k8s-blue-net1
+virsh net-start k8s-blue-net2
+virsh net-start k8s-green-net1
+virsh net-start k8s-green-net2
 virsh net-start k8s-wkr0-net
 
 # verify the networks
