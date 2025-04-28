@@ -1,4 +1,3 @@
-# this version reproduces the issue in Adobe's lab where EGW IP binding is not working
 MTU: 1500
 agentNotReadyTaintKey: CiliumIsDown
 bpf:
@@ -73,14 +72,14 @@ ipam:
     clusterPoolIPv4PodCIDRList: ["172.16.0.0/16"]
 # k8sServiceHost: k8s-cp
 # k8sServicePort: 443
-operator:
-  enabled: true
-  prometheus:
-    enabled: true
+# operator:
+#   enabled: true
+#   prometheus:
+#     enabled: true
 #     serviceMonitor:
 #       enabled: true
-prometheus:
-  enabled: true
+# prometheus:
+#   enabled: true
 #   serviceMonitor:
 #     enabled: true
 #     trustCRDsExist: true
