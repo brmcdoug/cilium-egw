@@ -5,7 +5,7 @@ metadata:
 spec:
   nodeSelector:
     matchLabels:
-      egress-node: "green"
+      egressnode: "green"
   bgpInstances:
   - name: "instance-green"
     localASN: 65001

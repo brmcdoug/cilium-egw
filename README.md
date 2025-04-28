@@ -66,11 +66,14 @@ sudo containerlab deploy -t topology.yaml
 # k8s-cp
 ssh user@192.168.122.100
 
-# k8s-egw
+# k8s-egw-green
 ssh user@192.168.122.101
 
 # k8s-wkr0
 ssh user@192.168.122.102
+
+# k8s-egw-blue
+ssh user@192.168.122.103
 ```
 
 5. Ping the k8s control plane node from egress gateway node and worker node
@@ -88,17 +91,31 @@ cd vm-config
 sudo kubeadm init --config=k8s-cp-kubeadm-init.yaml
 ```
 
-1. Join the egress gateway node and worker node to the cluster 
+3. Add helm repo:
+```
+helm repo add isovalent https://helm.isovalent.com
+```
+
+4. Initialize Cilium Enterprise
+```
+helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f ~/cilium-egw/cilium-egw-poc/helm-values-test.yaml
+```
+
+5. Join the egress gateway node and worker node to the cluster 
 Note: you'll need to update the token and caCertHash values with the new values produced by kubeadm init on the control plane node
 
 ```
-# k8s-egw
+# k8s-egw-green
 cd vm-config
-sudo kubeadm join --config=k8s-egw-kubeadm-join.yaml
+sudo kubeadm join --config=k8s-egw-green-join.yaml
 
 # k8s-wkr0
 cd vm-config
 sudo kubeadm join --config=k8s-wkr0-kubeadm-join.yaml
+
+# k8s-egw-blue
+cd vm-config
+sudo kubeadm join --config=k8s-egw-blue-join.yaml
 ```
 
 4. Verify nodes from the control plane node
