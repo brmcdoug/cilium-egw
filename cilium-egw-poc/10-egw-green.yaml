@@ -16,4 +16,18 @@ spec:
   egressGroups:
     - nodeSelector:
         matchLabels:
-          egress-node: "green"   
+          egressnode: "green"   
+
+# Corret labels
+# ➜  ciliumEgress kubectl get node -l egressnode=red
+# NAME                                          STATUS   ROLES    AGE   VERSION
+# cpt-worker-ethos11devut1-91.ethos.adobe.net   Ready    worker   24d   v1.29.6
+# cpt-worker-ethos11devut1-92.ethos.adobe.net   Ready    worker   24d   v1.29.6
+# ➜  ciliumEgress kubectl get node -l egressnode=green
+# NAME                                          STATUS   ROLES    AGE   VERSION
+# cpt-worker-ethos11devut1-96.ethos.adobe.net   Ready    worker   24d   v1.29.6
+# cpt-worker-ethos11devut1-97.ethos.adobe.net   Ready    worker   24d   v1.29.6
+# ➜  ciliumEgress kubectl get node -l egressnode=blue 
+# NAME                                          STATUS   ROLES    AGE   VERSION
+# cpt-worker-ethos11devut1-94.ethos.adobe.net   Ready    worker   24d   v1.29.6
+# cpt-worker-ethos11devut1-95.ethos.adobe.net   Ready    worker   24d   v1.29.6
