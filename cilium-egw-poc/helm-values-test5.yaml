@@ -1,5 +1,3 @@
-# this one works, i suspect because i've commented out the operator
-
 MTU: 1500
 agentNotReadyTaintKey: CiliumIsDown
 bpf:
@@ -67,12 +65,13 @@ gatewayAPI:
 kubeProxyReplacement: "true"
 k8s:
   requireIPv4PodCIDR: true
+  # requireIPv6PodCIDR: true
 ipam:
   mode: "cluster-pool"
   ciliumNodeUpdateRate: "15s"
   operator:
     clusterPoolIPv4PodCIDRList: ["172.16.0.0/16"]
-# k8sServiceHost: k8s-cp
+# k8sServiceHost: apiserver-ethos11-dev-ut1.ethos.adobe.net
 # k8sServicePort: 443
 # operator:
 #   enabled: true
@@ -80,10 +79,10 @@ ipam:
 #     enabled: true
 #     serviceMonitor:
 #       enabled: true
-# prometheus:
-#   enabled: true
-#   serviceMonitor:
-#     enabled: true
-#     trustCRDsExist: true
+prometheus:
+  enabled: true
+  # serviceMonitor:
+  #   enabled: true
+    # trustCRDsExist: true
 
 
