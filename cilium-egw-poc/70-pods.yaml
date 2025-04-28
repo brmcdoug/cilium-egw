@@ -1,0 +1,62 @@
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: testns
+  labels:
+    name: testns
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: testns
+  labels:
+    app: alpine-ping
+  name: testpod0
+spec:
+  containers:
+  - image: iejalapeno/alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: testpod0
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: testns
+  labels:
+    app: alpine-ping
+  name: testpod1
+spec:
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: testpod1
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: testns
+  labels:
+    app: alpine-ping
+  name: testpod2
+spec:
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: testpod2
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"

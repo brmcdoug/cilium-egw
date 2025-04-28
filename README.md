@@ -140,12 +140,19 @@ helm get values cilium -n kube-system
 
 1.  label the egress gateway node
 ```
-kubectl label node k8s-egw egress-node=green
+kubectl label node k8s-egw-green egress-node=green
+kubectl label node k8s-egw-blue egress-node=blue
+
+or
+
+kubectl label node k8s-egw-green egressnode=green
+kubectl label node k8s-egw-blue egressnode=blue
+
 ```
 
 Note: if you need to remove the label:
 ```
-kubectl label node k8s-egw egress-node-
+kubectl label node k8s-egw-green egress-node-
 ```
 
 2. Apply the egress gateway policy
@@ -185,7 +192,8 @@ kubectl apply -f 20-bgp-cluster.yaml
 
 6. Annotate the egress gateway node to force bgp router id
 ```
-kubectl annotate node k8s-egw cilium.io/bgp-virtual-router.65010="router-id=10.10.21.2"
+kubectl annotate node k8s-egw-green cilium.io/bgp-virtual-router.65001="router-id=10.10.21.2"
+kubectl annotate node k8s-egw-blue cilium.io/bgp-virtual-router.65001="router-id=10.10.23.2"
 ```
 
 7. Apply bgp peer config
