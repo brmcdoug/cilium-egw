@@ -25,8 +25,8 @@ Containerlab network topology:
 Ubuntu 22.04 VMs attached to the containerlab leaf nodes:
 - k8s-cp - kubernetes control plane node
 - k8s-wkr0 - kubernetes worker node
-- k8s-wkr1 - kubernetes worker node
-- k8s-egw - kubernetes/cilium egress gateway node
+- k8s-egw-blue - kubernetes/cilium blue egress gateway node
+- k8s-egw-green - kubernetes/cilium green egress gateway node
 
 ![Lab Topology](./diagrams/topology.png)
 
