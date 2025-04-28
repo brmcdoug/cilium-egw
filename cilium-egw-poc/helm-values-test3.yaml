@@ -70,8 +70,8 @@ ipam:
   ciliumNodeUpdateRate: "15s"
   operator:
     clusterPoolIPv4PodCIDRList: ["172.16.0.0/16"]
-k8sServiceHost: k8s-cp
-k8sServicePort: 443
+# k8sServiceHost: k8s-cp
+# k8sServicePort: 443
 operator:
   enabled: true
   prometheus:
