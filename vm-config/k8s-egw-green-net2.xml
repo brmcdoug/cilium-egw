@@ -1,5 +1,5 @@
 <network>
-  <name>k8s-egw-net2</name>
+  <name>k8s-green-net2</name>
   <bridge name="k8s-green-net2" />
   <forward mode="route" />
   <ip address="10.10.21.3" netmask="255.255.255.0" />
