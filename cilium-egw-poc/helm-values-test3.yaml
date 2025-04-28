@@ -26,8 +26,8 @@ envoy:
   - --component-log-level http:debug,http2:debug,filter:debug,conn_handler:debug,router:debug,connection:debug,upstream:debug,pool:debug
   prometheus:
     enabled: true
-    serviceMonitor:
-      enabled: true
+    # serviceMonitor:
+    #   enabled: true
 hubble:
   enabled: true
   metrics:
@@ -76,12 +76,12 @@ operator:
   enabled: true
   prometheus:
     enabled: true
-    serviceMonitor:
-      enabled: true
+#     serviceMonitor:
+#       enabled: true
 prometheus:
   enabled: true
-  serviceMonitor:
-    enabled: true
-    trustCRDsExist: true
+#   serviceMonitor:
+#     enabled: true
+#     trustCRDsExist: true
 
 
