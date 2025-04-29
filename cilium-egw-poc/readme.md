@@ -6,6 +6,7 @@ This is the procedure I followed to convert my non-working BGPv1 setup to BGPv2.
 ```
 kubectl delete -f <filename.yaml>
 helm uninstall <release name> -n kube-system
+helm uninstall cilium -n kube-system
 ```
 
 2. Re-install Cilium using updated helm values format - note, BGP Control Plane has been moved to the "Enterprise" section in the yaml file [link](./helm-values.yaml#L13)
