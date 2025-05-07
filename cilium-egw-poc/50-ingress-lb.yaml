@@ -3,7 +3,7 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: "green"
   labels:
-    ingress: green
+    ingress: bgp-green
 spec:
   blocks:
   - cidr: "192.150.9.126/31"
@@ -18,7 +18,7 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: "blue"
   labels:
-    ingress: blue
+    ingress: bgp-blue
 spec:
   blocks:
   - cidr: "10.27.248.13/31"
