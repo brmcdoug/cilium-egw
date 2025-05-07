@@ -3,7 +3,7 @@ kind: IsovalentBGPAdvertisement
 metadata:
   name: green
   labels:
-    advertise: bgp-green
+    ingress: bgp-green
 spec:
   advertisements:
     - advertisementType: "Service"
