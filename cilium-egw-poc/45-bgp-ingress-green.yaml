@@ -11,8 +11,10 @@ spec:
         addresses:
           - LoadBalancerIP
       selector:
-        matchExpressions:
-          - { key: advertise, operator: In, values: [ bgp-green ] }
+        matchLabels:
+          pool: "bgp-green"
+        # matchExpressions:
+        #   - { key: ingress, operator: In, values: [ bgp-green ] }
       attributes:
         communities:
           standard: 
