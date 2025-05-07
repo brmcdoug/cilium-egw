@@ -18,3 +18,17 @@ spec:
           - 65000:5006
           - 65009:9003
 
+    - advertisementType: "Service"
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
+        matchExpressions:
+          - { key: advertise, operator: In, values: [ bgp-green ] }
+      attributes:
+        communities:
+          standard: 
+          - 64512:5
+          - 65000:1730
+          - 65000:5006
+          - 65009:9003
