@@ -1,0 +1,132 @@
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: green-ingress
+spec:
+  nodeSelector:
+    matchLabels:
+      ingress: "green"
+  virtualRouters:
+  - localASN: 65001
+    serviceSelector:
+      matchLabels:
+        ingress: green
+    neighbors:
+    - peerAddress: '10.27.245.46/32'
+      eBGPMultihopTTL: 5
+      peerASN: 65000
+      advertisedPathAttributes:
+      - selectorType: CiliumLoadBalancerIPPool
+        selector:
+          matchLabels:
+            ingress: green
+        communities:
+          standard:
+          - 64512:5
+          - 65000:1730
+          - 65000:5006
+          - 65009:9003
+    - peerAddress: '10.27.245.47/32'
+      eBGPMultihopTTL: 5
+      peerASN: 65000
+      advertisedPathAttributes:
+      - selectorType: CiliumLoadBalancerIPPool 
+        selector:
+          matchLabels:
+            ingress: green
+        communities:
+          standard:
+          - 64512:5
+          - 65000:1730
+          - 65000:5006
+          - 65009:9003
+
+---
+
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: blue-ingress
+spec:
+  nodeSelector:
+    matchLabels:
+      ingress: "blue"
+  virtualRouters:
+  - localASN: 65001
+    serviceSelector:
+      matchLabels:
+        ingress: blue
+    neighbors:
+    - peerAddress: '10.27.245.44/32'
+      eBGPMultihopTTL: 5
+      peerASN: 65000
+      advertisedPathAttributes:
+      - selectorType: CiliumLoadBalancerIPPool
+        selector:
+          matchLabels:
+            ingress: blue
+        communities:
+          standard:
+          - 64512:1
+          - 65000:1720
+          - 65000:5006
+          - 65004:9001
+    - peerAddress: '10.27.245.45/32'
+      eBGPMultihopTTL: 5
+      peerASN: 65000
+      advertisedPathAttributes:
+      - selectorType: CiliumLoadBalancerIPPool 
+        selector:
+          matchLabels:
+            ingress: blue
+        communities:
+          standard:
+          - 64512:1
+          - 65000:1720
+          - 65000:5006
+          - 65004:9001
+
+---
+
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: red-ingress
+spec:
+  nodeSelector:
+    matchLabels:
+      ingress: "red"
+  virtualRouters:
+  - localASN: 65001
+    serviceSelector:
+      matchLabels:
+        ingress: red
+    neighbors:
+    - peerAddress: '10.27.245.42/32'
+      eBGPMultihopTTL: 5
+      peerASN: 65000
+      advertisedPathAttributes:
+      - selectorType: CiliumLoadBalancerIPPool
+        selector:
+          matchLabels:
+            ingress: red
+        communities:
+          standard:
+          - 64512:1
+          - 65000:1720
+          - 65000:5006
+          - 65004:9112
+    - peerAddress: '10.27.245.43/32'
+      eBGPMultihopTTL: 5
+      peerASN: 65000
+      advertisedPathAttributes:
+      - selectorType: CiliumLoadBalancerIPPool 
+        selector:
+          matchLabels:
+            ingress: red
+        communities:
+          standard:
+          - 64512:1
+          - 65000:1720
+          - 65000:5006
+          - 65004:9112
