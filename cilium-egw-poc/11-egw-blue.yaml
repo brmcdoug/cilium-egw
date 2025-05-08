@@ -12,7 +12,7 @@ spec:
   destinationCIDRs:
   - "10.0.0.0/8"
   egressCIDRs:
-  - "10.27.248.1/31"
+  - "10.27.248.2/31"
   egressGroups:
     - nodeSelector:
         matchLabels:
