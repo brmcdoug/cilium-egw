@@ -28,8 +28,8 @@ envoy:
   - --component-log-level http:debug,http2:debug,filter:debug,conn_handler:debug,router:debug,connection:debug,upstream:debug,pool:debug
   prometheus:
     enabled: true
-    # serviceMonitor:
-    #   enabled: true
+    serviceMonitor:
+      enabled: true
 hubble:
   enabled: true
   metrics:
@@ -48,15 +48,15 @@ hubble:
     - flow:labelsContext=source_namespace,source_workload,destination_namespace,destination_workload;sourceContext=workload-name|pod-name|dns|reserved-identity;destinationContext=workload-name|pod-name|dns|reserved-identity
     - flows-to-world:labelsContext=source_namespace,source_workload;sourceContext=workload-name|pod-name|dns|reserved-identity
     - httpV2:exemplars=true;labelsContext=source_namespace,source_workload,source_app,destination_namespace,destination_workload,destination_app,traffic_direction;sourceContext=workload-name|pod-name|dns|reserved-identity;destinationContext=workload-name|pod-name|dns|reserved-identity
-    # serviceMonitor:
-    #   enabled: true
+    serviceMonitor:
+      enabled: true
   relay:
     dialTimeout: 15s
     enabled: true
     prometheus:
       enabled: true
-      # serviceMonitor:
-      #   enabled: true
+      serviceMonitor:
+        enabled: true
     retryTimeout: 15s
 nodePort:
   enabled: true
@@ -75,16 +75,16 @@ ipam:
     clusterPoolIPv4PodCIDRList: ["172.16.0.0/16"]
 k8sServiceHost: apiserver-ethos11-dev-ut1.ethos.adobe.net
 k8sServicePort: 443
-# operator:
-#   enabled: true
-#   prometheus:
-#     enabled: true
-#     serviceMonitor:
-#       enabled: true
+operator:
+  enabled: true
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
 prometheus:
   enabled: true
-  # serviceMonitor:
-  #   enabled: true
-  #   trustCRDsExist: true
+  serviceMonitor:
+    enabled: true
+    trustCRDsExist: true
 
 
