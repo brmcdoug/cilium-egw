@@ -1,0 +1,19 @@
+apiVersion: isovalent.com/v1
+kind: IsovalentEgressGatewayPolicy
+metadata:
+  name: egress-blue
+  labels:
+    advertise: bgp-blue
+spec:
+  selectors:
+  - podSelector:
+      matchLabels:
+        io.kubernetes.pod.namespace: testns
+  destinationCIDRs:
+  - "10.0.0.0/8"
+  egressCIDRs:
+  - "10.27.248.2/31"
+  egressGroups:
+    - nodeSelector:
+        matchLabels:
+          egressnode: "blue"   

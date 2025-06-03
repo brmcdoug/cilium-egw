@@ -1,0 +1,74 @@
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: testns
+  labels:
+    name: testns
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: testns
+  labels:
+    app: alpine-ping
+  name: testpod0
+spec:
+  nodeName: cpt-worker-ethos11devut1-81.ethos.adobe.net
+  containers:
+  - image: iejalapeno/alpine:latest
+    imagePullPolicy: IfNotPresent
+    securityContext:
+      privileged: true
+      allowPrivilegeEscalation: true
+    name: testpod0
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: testns
+  labels:
+    app: alpine-ping
+  name: testpod1
+spec:
+  nodeName: cpt-worker-ethos11devut1-81.ethos.adobe.net
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: testpod1
+    securityContext:
+      privileged: true
+      allowPrivilegeEscalation: true
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: testns
+  labels:
+    app: alpine-ping
+  name: testpod2
+spec:
+  nodeName: cpt-worker-ethos11devut1-81.ethos.adobe.net
+  containers:
+  - image: alpine:latest
+    imagePullPolicy: IfNotPresent
+    name: testpod2
+    securityContext:
+      privileged: true
+      allowPrivilegeEscalation: true
+    command:
+      - /bin/sh
+      - "-c"
+      - "sleep 60m"
