@@ -1,6 +1,6 @@
-## quick instructions to convert to BGPv2
+## HA/Health install doc / notes
 
-This is the procedure I followed to convert my non-working BGPv1 setup to BGPv2. Note, I also rebuilt the helm values file 
+I cleaned everything out first
 
 1. Delete existing Cilium CRDs and uninstall Cilium via helm uninstall:
 ```
@@ -9,81 +9,91 @@ helm uninstall <release name> -n kube-system
 helm uninstall cilium -n kube-system
 ```
 
-2. Re-install Cilium using updated helm values format - note, BGP Control Plane has been moved to the "Enterprise" section in the yaml file [link](./helm-values.yaml#L13)
+2. Install prometheus operator:
+```
+kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml
+```
+
+3. Re-install Cilium using updated helm values with serviceMonitor uncommented
 ```
 helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f  helm-values.yaml 
-
-# in my lab:
-
-helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f  helm-values-test.yaml
-
 ```
 
-3. Check helm values and that all Cilium agent pods are up
+
+4. Check helm values and that all Cilium agent pods are up
 ```
 helm get values cilium -n kube-system
 kubectl get pods -n kube-system
 ```
 
-4. label EGW nodes:
+5. Add the prometheus-community Helm repo
+```
+helm repo update
+```
+
+6. Install kube-prometheus-stack
+```
+helm install prometheus prometheus-community/prometheus \
+  --namespace monitoring \
+  --set server.persistentVolume.enabled=false \
+  --set alertmanager.enabled=false \
+  --set pushgateway.enabled=false \
+  --set serverFiles.prometheus.yml.scrape_configs[0].job_name=kubernetes-pods \
+  --set serverFiles.prometheus.yml.scrape_configs[0].kubernetes_sd_configs[0].role=pod \
+  --set serverFiles.prometheus.yml.scrape_configs[0].relabel_configs[0].source_labels[0]=__meta_kubernetes_pod_annotation_prometheus_io_scrape \
+  --set serverFiles.prometheus.yml.scrape_configs[0].relabel_configs[0].action=keep \
+  --set serverFiles.prometheus.yml.scrape_configs[0].relabel_configs[0].regex=true
+  ```
+
+verify
+```
+kubectl get servicemonitors -A
+```
+
+6. label EGW nodes:
 ```
 kubectl label node k8s-egw-green egressnode=green
 kubectl label node k8s-egw-blue egressnode=blue
 ```
 
-### untested - re-apply old load balancer/service and ingress BGP CRDs
+7. Apply EGW and BGP CRDs in numbered order
 
- - Note: as of 4/24/2025 ingress yaml file translation is still under construction...however, if ingress is working with BGPv1 then translation to BGPv2 is not urgent
-
- - Note: as of 4/27/2025 testing I've not applied any ingress CRDs, only egress blue and green, which are both working
-
-### reinstall egress GW with egress BGPv2
-
-4. Apply Cilium egress gateway policy yaml
-```
-kubectl apply -f 10-egw-green.yaml
-kubectl apply -f 11-egw-blue.yaml
-```
-
-5. Verify EGW:
+8. Verify EGW:
 ```
 kubectl get node -l egressnode=green
 kubectl get node -l egressnode=blue
 kubectl get IsovalentEgressGatewayPolicy -oyaml
 ```
 
-6. Verify VIP/2ndary IP address on egress gateway worker node
+9. unlabel then re-label green node so we can add to blue HA GW
 ```
-ip addr show dev ens224
+kubectl label node k8s-egw-green egressnode-
+kubectl label node k8s-egw-green egressnode=blue
 ```
-
-In my lab:
 ```
-cisco@k8s-egw:~$ ip addr show dev ens5
-4: ens5: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-    link/ether 52:54:ab:00:00:03 brd ff:ff:ff:ff:ff:ff
-    altname enp0s5
-    inet 10.10.21.2/24 brd 10.10.21.255 scope global ens5
-       valid_lft forever preferred_lft forever
-    inet 192.150.9.124/32 scope global ens5          <-----------
-       valid_lft forever preferred_lft forever
-    inet6 fe80::5054:abff:fe00:3/64 scope link 
-       valid_lft forever preferred_lft forever
+cisco@k8s-cp:~/cilium-egw/egw-health$ kubectl get node -l egressnode=blue
+NAME            STATUS   ROLES    AGE   VERSION
+k8s-egw-blue    Ready    <none>   25m   v1.31.8
+k8s-egw-green   Ready    <none>   25m   v1.31.8
 ```
 
-7. Apply BGP cluster config:
-```
-kubectl apply -f 20-bgp-cluster-green.yaml 
-kubectl apply -f 21-bgp-cluster-blue.yaml
-```
 
-8. Annotate EGW nodes to set BGP router-id:
+
+
+
+
+
+
+
+
+
+1. Annotate EGW nodes to set BGP router-id:
 ```
 kubectl annotate node k8s-egw-green cilium.io/bgp-virtual-router.65001="router-id=10.10.21.2"
 kubectl annotate node k8s-egw-blue cilium.io/bgp-virtual-router.65001="router-id=10.10.23.2"
 ```
 
-9.  Apply BGP peer config (this config is very short so I put green, blue, and red in one file):
+1.  Apply BGP peer config (this config is very short so I put green, blue, and red in one file):
 ```
 kubectl apply -f 30-bgp-peer.yaml 
 ```
