@@ -88,66 +88,34 @@ kubectl get isovalentegressgatewaypolicies
 kubectl apply -f 12-egw-blue-HA.yaml
 ```
 
-
-
-
-
-
-
-
-
-
-
-11. Annotate EGW nodes to set BGP router-id:
+12.  Annotate EGW nodes to set BGP router-id (if needed)
 ```
 kubectl annotate node k8s-egw-green cilium.io/bgp-virtual-router.65001="router-id=10.10.21.2"
 kubectl annotate node k8s-egw-blue cilium.io/bgp-virtual-router.65001="router-id=10.10.23.2"
 ```
 
-1.  Apply BGP peer config (this config is very short so I put green, blue, and red in one file):
-```
-kubectl apply -f 30-bgp-peer.yaml 
-```
-
-1o. Apply BGP advertisement
-```
-kubectl apply -f 40-bgp-advert-green.yaml 
-kubectl apply -f 41-bgp-advert-blue.yaml 
-```
-
-11.  Verify BGP peer session established and Cilium is advertising the VIP route:
+13.   Verify BGP peer session established and Cilium is advertising the VIP route:
 ```
 cilium bgp peers
 cilium bgp routes
 ```
 
-Example output:
+14. update helm values (if needed)
 ```
-cisco@k8s-cp:~/cilium-egw/cilium-egw-poc$ cilium bgp peers
-Node            Local AS   Peer AS   Peer Address   Session State   Uptime   Family         Received   Advertised
-k8s-egw-blue    65001      65000     10.27.245.44   established     20m58s   ipv4/unicast   5      1    
-                65001      65000     10.27.245.45   active          0s       ipv4/unicast   0      0    
-k8s-egw-green   65001      65000     10.27.245.46   established     12m30s   ipv4/unicast   6      1    
-                65001      65000     10.27.245.47   active          0s       ipv4/unicast   0      0    
-cisco@k8s-cp:~/cilium-egw/cilium-egw-poc$ cilium bgp routes
-(Defaulting to `available ipv4 unicast` routes, please see help for more options)
-
-Node            VRouter   Prefix             NextHop   Age     Attrs
-k8s-egw-blue    65001     10.27.248.0/32     0.0.0.0   21m9s   [{Origin: i} {Nexthop: 0.0.0.0}]   
-k8s-egw-green   65001     192.150.9.124/32   0.0.0.0   9m39s   [{Origin: i} {Nexthop: 0.0.0.0}]  
+helm upgrade cilium isovalent/cilium --namespace kube-system -f helm-values-test.yaml 
 ```
 
-12.  Test connectivity to DCI/Blue 10.0.0.0/8 
+15.  Test connectivity to DCI/Blue 10.0.0.0/8 
 ```
 kubectl exec -it -n testns testpod1 -- ping 10.0.0.5 -c 2
 ```
 
-12.  Test connectivity to DCI/Green Internet
+1.   Test connectivity to DCI/Green Internet
 ```
 kubectl exec -it -n testns testpod1 -- ping 5.5.5.5 -c 2
 ```
 
-14.  Verify outbound NAT/PAT - I run a tcpdump on the egress gateway worker node 'ens224' equivalent:
+1.   Verify outbound NAT/PAT - I run a tcpdump on the egress gateway worker node 'ens224' equivalent:
 ```
 tcpdump -ni ens224
 ```
