@@ -19,5 +19,3 @@ spec:
           egressnode: "blue"
       # Add HA configuration
       maxGatewayNodes: 2  # Allow both nodes to be active
-      # Optional: Specify which node is preferred
-      preferredNode: "k8s-egw-blue"
