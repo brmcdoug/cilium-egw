@@ -2,7 +2,7 @@
 apiVersion: isovalent.com/v1alpha1
 kind: IsovalentBGPPeerConfig
 metadata:
-  name: blue-peer
+  name: red-peer
 spec:
   ebgpMultihop: 5
   families:
@@ -10,4 +10,4 @@ spec:
       safi: unicast
       advertisements:
         matchLabels:
-          advertise: "bgp-blue"
+          advertise: "bgp-red"
