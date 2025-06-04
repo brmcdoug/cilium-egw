@@ -14,6 +14,14 @@ enterprise:
   egressGatewayHA:
     enabled: true
     healthcheckTimeout: 1s
+    healthCheck:
+      enabled: true
+      interval: 5s
+      retries: 3
+      timeout: 2s
+      targetIP: 10.0.0.5  # DCI node IP
+      targetPort: 80
+      protocol: tcp
     socketTermination:
       enabled: false
   featureGate:
@@ -77,5 +85,3 @@ prometheus:
   serviceMonitor:
     enabled: true
     trustCRDsExist: true
-image:
-  tag: v1.16.8-cee.4 
