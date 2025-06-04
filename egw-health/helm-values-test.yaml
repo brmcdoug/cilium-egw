@@ -7,8 +7,6 @@ bpf:
 debug:
   enabled: true
   verbose: flow,datapath,envoy,policy
-# ipv6:
-#   enabled: true
 egressGateway:
   enabled: true
   installRoutes: true
@@ -66,7 +64,7 @@ nodePort:
 nodeinit:
   enabled: true
 gatewayAPI:
-  enabled: true
+  enabled: false
 kubeProxyReplacement: "true"
 k8s:
   requireIPv4PodCIDR: true
