@@ -7,8 +7,8 @@ bpf:
 debug:
   enabled: true
   verbose: flow,datapath,envoy,policy
-ipv6:
-  enabled: true
+# ipv6:
+#   enabled: true
 egressGateway:
   enabled: true
   installRoutes: true
@@ -22,7 +22,7 @@ enterprise:
     enabled: true
     healthcheckTimeout: 1s
     socketTermination:
-      enabled: true
+      enabled: false
   bgpControlPlane:
     enabled: true
 envoy:
