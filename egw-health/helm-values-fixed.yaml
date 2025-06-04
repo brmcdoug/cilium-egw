@@ -15,7 +15,7 @@ enterprise:
     enabled: true
     healthcheckTimeout: 1s
     socketTermination:
-      enabled: true
+      enabled: false
   featureGate:
     approved:
     - EnterpriseBGPControlPlane
