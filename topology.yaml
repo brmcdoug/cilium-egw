@@ -46,6 +46,12 @@ topology:
       mgmt-ipv4: 172.20.1.105
       startup-config: nx-config/r05.cfg
 
+    r06:
+      kind: cisco_xrd
+      image: ios-xr/xrd-control-plane:24.4.1
+      mgmt-ipv4: 172.20.1.106
+      startup-config: nx-config/r06.cfg
+
     k8s-cp-net:
       kind: bridge
 
@@ -76,6 +82,8 @@ topology:
     - endpoints: ["r02:eth3", "k8s-cp-net:r02-eth3"]
     - endpoints: ["r02:eth4", "r05:Gi0-0-0-0"]
     - endpoints: ["r02:eth5", "r05:Gi0-0-0-1"]
+    - endpoints: ["r02:eth6", "r06:Gi0-0-0-0"]
+    - endpoints: ["r02:eth7", "r06:Gi0-0-0-1"]
 
     - endpoints: ["r03:eth3", "k8s-green-net1:r03-eth3"]
     - endpoints: ["r03:eth4", "k8s-blue-net1:r03-eth4"]

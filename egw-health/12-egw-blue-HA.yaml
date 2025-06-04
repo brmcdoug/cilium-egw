@@ -17,5 +17,5 @@ spec:
     - nodeSelector:
         matchLabels:
           egressnode: "blue"
-      # Add HA configuration
+      # HA configuration
       maxGatewayNodes: 2  # Allow both nodes to be active

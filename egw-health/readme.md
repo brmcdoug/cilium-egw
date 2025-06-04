@@ -77,6 +77,16 @@ k8s-egw-blue    Ready    <none>   25m   v1.31.8
 k8s-egw-green   Ready    <none>   25m   v1.31.8
 ```
 
+10. cleanup old EGW if any:
+```
+kubectl delete isovalentegressgatewaypolicies egress-blue
+kubectl get isovalentegressgatewaypolicies
+```
+
+11. apply 12-egw-blue-HA.yaml (delete )
+```
+kubectl apply -f 12-egw-blue-HA.yaml
+```
 
 
 
@@ -87,7 +97,8 @@ k8s-egw-green   Ready    <none>   25m   v1.31.8
 
 
 
-1. Annotate EGW nodes to set BGP router-id:
+
+11. Annotate EGW nodes to set BGP router-id:
 ```
 kubectl annotate node k8s-egw-green cilium.io/bgp-virtual-router.65001="router-id=10.10.21.2"
 kubectl annotate node k8s-egw-blue cilium.io/bgp-virtual-router.65001="router-id=10.10.23.2"

@@ -19,7 +19,10 @@ enterprise:
     - EgressGatewayHA
     - EgressGatewayIPv4
   egressGatewayHA:
-    enabled: true 
+    enabled: true
+    healthcheckTimeout: 1s
+    socketTermination:
+      enabled: true
   bgpControlPlane:
     enabled: true
 envoy:
