@@ -3,7 +3,7 @@ network:
     ens3:
       dhcp4: false
       addresses:
-        - 192.168.122.103/24
+        - 192.168.122.105/24
     ens4:
       addresses:
         - 10.10.13.4/24
