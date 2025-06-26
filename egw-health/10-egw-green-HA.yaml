@@ -6,9 +6,9 @@ metadata:
     advertise: bgp-green
 spec:
   selectors:
-  - podSelector:
-      matchLabels:
-        io.kubernetes.pod.namespace: testns
+  - podSelector: {}
+      # matchLabels:
+      #   io.kubernetes.pod.namespace: testns
   destinationCIDRs:
   - "0.0.0.0/0"
   egressCIDRs:
