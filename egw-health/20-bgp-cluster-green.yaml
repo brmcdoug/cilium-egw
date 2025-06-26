@@ -1,0 +1,25 @@
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPClusterConfig
+metadata:
+  name: green-egress
+spec:
+  nodeSelector:
+    matchLabels:
+      egressnode: "green"
+  bgpInstances:
+  - name: "instance-green"
+    localASN: 65001
+    peers:
+    - name: "DCI-1"
+      peerASN: 65000
+      peerAddress: 10.27.245.46
+      peerConfigRef:
+        name: "green-peer"
+    - name: "DCI-2"
+      peerASN: 65000
+      peerAddress: 10.27.245.47
+      peerConfigRef:
+        name: "green-peer"
+
+
+
