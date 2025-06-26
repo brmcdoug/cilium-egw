@@ -49,10 +49,13 @@ verify
 kubectl get servicemonitors -A
 ```
 
-7. label k8s nodes to both be egressnode=blue
+1. label k8s nodes 
 ```
-kubectl label node k8s-egw-green egressnode=blue
 kubectl label node k8s-egw-blue egressnode=blue
+kubectl label node k8s-egw-blue2 egressnode=blue
+
+kubectl label node k8s-egw-green1 egressnode=green
+kubectl label node k8s-egw-green2 egressnode=green
 ```
 
 or
