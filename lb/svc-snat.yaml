@@ -4,6 +4,8 @@ metadata:
   name: test-service-snat
   annotations:
     service.cilium.io/loadbalancer-mode: "snat"
+  labels:
+    gateway: blue
 spec:
   type: LoadBalancer
   ports:

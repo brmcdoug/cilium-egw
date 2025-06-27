@@ -4,6 +4,8 @@ metadata:
   name: test-service-dsr
   annotations:
     service.cilium.io/loadbalancer-mode: "dsr"
+  labels:
+    gateway: blue
 spec:
   type: LoadBalancer
   ports:

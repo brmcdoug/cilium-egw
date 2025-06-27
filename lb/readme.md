@@ -102,6 +102,23 @@ tunnel-protocol                                      vxlan
 tunnel-source-port-range                             0-0
 ```
 
+1. Helm upgrade to apply Maglev
+```
+helm upgrade cilium isovalent/cilium  --namespace kube-system -f  helm-values-HA-maglev.yaml  
+```
+
+```
+helm get values cilium -n kube-system
+```
+
+2. label nodes
+```
+kubectl label node k8s-egw-blue ingressnode=blue
+kubectl label node k8s-egw-blue2 ingressnode=blue
+kubectl label node k8s-egw-green1 ingressnode=green
+kubectl label node k8s-egw-green2 ingressnode=green
+```
+
 
 
 
