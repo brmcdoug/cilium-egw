@@ -1,5 +1,11 @@
 ## Ingress GW, load balancing, DSR, XDP acceleration
 
+## Contents
+
+- [Ingress GW, load balancing, DSR, XDP acceleration](#ingress-gw-load-balancing-dsr-xdp-acceleration)
+- [Contents](#contents)
+  - [kube-proxy replacement and base setup](#kube-proxy-replacement-and-base-setup)
+
 ### kube-proxy replacement and base setup
 
 1. Remove kube-proxy
@@ -13,7 +19,16 @@ iptables-save | grep -v KUBE | iptables-restore
 
 2. helm upgrade (we already have kubeProxyReplacement=true)
 ```
-helm upgrade cilium isovalent/cilium --version 1.17.5  --namespace kube-system -f  helm-values-HA.yaml 
+helm upgrade cilium isovalent/cilium --namespace kube-system -f  helm-values-HA.yaml 
+```
+
+or
+```
+helm install cilium isovalent/cilium --namespace kube-system -f  helm-values-HA.yaml
+```
+
+```
+helm get values cilium -n kube-system
 ```
 
 3. verify
