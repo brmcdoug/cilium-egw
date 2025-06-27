@@ -77,5 +77,3 @@ prometheus:
   serviceMonitor:
     enabled: true
     trustCRDsExist: true
-image:
-  tag: v1.16.8-cee.4 
