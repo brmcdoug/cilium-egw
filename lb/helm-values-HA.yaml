@@ -1,0 +1,8 @@
+loadBalancer:
+  mode: maglev
+  # Add ingress load balancer configuration
+  ingress:
+    enabled: true
+    nodeSelector:
+      matchLabels:
+        ingressnode: blue 

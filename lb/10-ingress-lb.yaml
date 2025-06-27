@@ -10,9 +10,6 @@ spec:
   serviceSelector:
     matchLabels:
       gateway: green
-  nodeSelector:
-    matchLabels:
-      ingressnode: green
 
 ---
 
@@ -28,6 +25,3 @@ spec:
   serviceSelector:
     matchLabels:
       gateway: blue
-  nodeSelector:
-    matchLabels:
-      ingressnode: blue

@@ -70,6 +70,11 @@ k8s:
 kubeProxyReplacement: "true"
 loadBalancer:
   mode: maglev
+  ingress:
+    enabled: true
+    nodeSelector:
+      matchLabels:
+        ingressnode: blue 
 nodePort:
   enabled: true
 nodeinit:
