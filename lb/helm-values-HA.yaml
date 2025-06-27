@@ -68,8 +68,8 @@ ipam:
 k8s:
   requireIPv4PodCIDR: true
 kubeProxyReplacement: "true"
-loadBalancer:
-  mode: maglev
+# loadBalancer:
+#   mode: maglev
   # maglev:
   #   tableSize: 16381  # Must be prime number, default is 16381
 prometheus:
