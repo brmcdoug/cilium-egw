@@ -1,0 +1,19 @@
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentBGPAdvertisement
+metadata:
+  name: bgp-ingress-blue
+  labels:
+    advertise: bgp-blue
+spec:
+  advertisements:
+    - advertisementType: "Service"
+      selector:            
+        matchExpressions:
+          - { key: gateway, operator: In, values: [ blue ] }
+      attributes:
+        communities:
+          standard: 
+          - 64512:1
+          - 65000:1720
+          - 65000:5006
+          - 65004:9001 

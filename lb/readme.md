@@ -119,6 +119,12 @@ kubectl label node k8s-egw-green1 ingressnode=green
 kubectl label node k8s-egw-green2 ingressnode=green
 ```
 
+3. Apply IGW and BGP config
+```
+kubectl apply -f 10-ingress-lb.yaml
+kubectl apply -f 11-bgp-advert-ingress-blue.yaml
+```
+
 
 
 
