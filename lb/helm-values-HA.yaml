@@ -68,6 +68,8 @@ ipam:
 k8s:
   requireIPv4PodCIDR: true
 kubeProxyReplacement: "true"
+loadBalancer:
+  mode: maglev
 nodePort:
   enabled: true
 nodeinit:

@@ -25,7 +25,13 @@ helm get values cilium -n kube-system
 kubectl get pods -n kube-system
 ```
 
-4. [12-egw-blue-HA.yaml](./12-egw-blue-HA.yaml) CRD
+4. label k8s nodes to both be egressnode=blue
+```
+kubectl label node k8s-egw-blue egressnode=blue
+kubectl label node k8s-egw-blue2 egressnode=blue
+```
+
+1. [12-egw-blue-HA.yaml](./12-egw-blue-HA.yaml) CRD
 ```yaml
   egressGroups:
     - nodeSelector:
@@ -34,7 +40,7 @@ kubectl get pods -n kube-system
       maxGatewayNodes: 2  # Allow both nodes to be active
 ```
 
-5. [21-bgp-cluster-blue.yaml](./21-bgp-cluster-blue.yaml) CRD - not new config, just highlighting it:
+1. [21-bgp-cluster-blue.yaml](./21-bgp-cluster-blue.yaml) CRD - not new config, just highlighting it:
 ```yaml
     peers:
     - name: "DCI-1"
@@ -49,12 +55,12 @@ kubectl get pods -n kube-system
         name: "blue-peer"
 ```
 
-6. Apply EGW and BGP CRDs in numbered order
+1. Apply EGW and BGP CRDs in numbered order
 ```
 ./apply.sh
 ```
 
-7.  Verify EGW:
+1.  Verify EGW:
 ```
 kubectl get node -l egressnode=blue
 kubectl get IsovalentEgressGatewayPolicy -oyaml
