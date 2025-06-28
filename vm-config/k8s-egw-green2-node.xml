@@ -4,7 +4,7 @@
   <memory unit='MB'>4000</memory>
   <currentMemory unit='MB'>4000</currentMemory>
   <cpu mode='custom' match='exact' check='partial'>
-    <model fallback='allow'>qemu64</model>
+    <model fallback='allow'>Westmere</model>
     <feature policy='require' name='ssse3'/>
     <feature policy='require' name='sse4.1'/>
     <feature policy='require' name='sse4.2'/>
