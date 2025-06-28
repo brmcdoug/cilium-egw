@@ -1,9 +1,8 @@
-## Ingress GW, load balancing, DSR, XDP acceleration
+## Ingress GW and Load Balancing
 
-## Contents
-
-- [Ingress GW, load balancing, DSR, XDP acceleration](#ingress-gw-load-balancing-dsr-xdp-acceleration)
-- [Contents](#contents)
+### Contents
+- [Ingress GW and Load Balancing](#ingress-gw-and-load-balancing)
+  - [Contents](#contents)
   - [kube-proxy replacement and base setup](#kube-proxy-replacement-and-base-setup)
 
 ### kube-proxy replacement and base setup
@@ -74,7 +73,7 @@ curl 10.10.12.2:$node_port
 curl 10.96.239.117:80
 ```
 
-### client source IP preservation
+### Client source IP preservation & DSR
 
 Note (June 27, 2025): this document covers externalTrafficPolicy. internalTrafficPolicy can be explored in the future.
 
@@ -128,7 +127,7 @@ helm get values cilium -n kube-system
 
 2. label nodes
 ```
-kubectl label node k8s-egw-blue ingressnode=blue
+kubectl label node k8s-egw-blue1 ingressnode=blue
 kubectl label node k8s-egw-blue2 ingressnode=blue
 kubectl label node k8s-egw-green1 ingressnode=green
 kubectl label node k8s-egw-green2 ingressnode=green
