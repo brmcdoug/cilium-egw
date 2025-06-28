@@ -1,9 +1,11 @@
 ## Ingress GW and Load Balancing
 
-### Contents
+## Contents
 - [Ingress GW and Load Balancing](#ingress-gw-and-load-balancing)
-  - [Contents](#contents)
+- [Contents](#contents)
   - [kube-proxy replacement and base setup](#kube-proxy-replacement-and-base-setup)
+  - [Client source IP preservation (DSR)](#client-source-ip-preservation-dsr)
+  - [Appendix](#appendix)
 
 ### kube-proxy replacement and base setup
 
@@ -59,13 +61,14 @@ NAME       TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
 my-nginx   NodePort   10.96.239.117   <none>        80:31021/TCP   17s
 ```
 
-7. validate kube-proxy replacement
+7. validate kube-proxy replacement 
 ```
 kubectl -n kube-system exec ds/cilium -- cilium-dbg service list
 ```
 
 8. create variable and test with simple curls
-``
+  
+```
 node_port=$(kubectl get svc my-nginx -o=jsonpath='{@.spec.ports[0].nodePort}')
 
 curl 127.0.0.1:$node_port
@@ -73,7 +76,7 @@ curl 10.10.12.2:$node_port
 curl 10.96.239.117:80
 ```
 
-### Client source IP preservation & DSR
+### Client source IP preservation (DSR)
 
 Note (June 27, 2025): this document covers externalTrafficPolicy. internalTrafficPolicy can be explored in the future.
 
@@ -104,7 +107,7 @@ Reducing load balancer processing overhead
 Maintaining session affinity when needed
 The trade-off is the slightly reduced MTU, but for most applications, this is negligible compared to the benefits of DSR."
 
-#### DSR will inherit cluster tunnel mode unless specified otherwise
+**DSR will inherit cluster tunnel mode unless specified otherwise**
 
 ```
 cilium config view | grep tunnel
@@ -139,7 +142,11 @@ kubectl apply -f 10-ingress-lb.yaml
 kubectl apply -f 11-bgp-advert-ingress-blue.yaml
 ```
 
+### Appendix
 
+```
+kubectl get pods -n kube-system -l k8s-app=cilium -o wide
+```
 
 
 

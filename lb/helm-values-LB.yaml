@@ -30,7 +30,7 @@ envoy:
     serviceMonitor:
       enabled: true
 gatewayAPI:
-  enabled: false
+  enabled: true
 hubble:
   enabled: true
   metrics:
