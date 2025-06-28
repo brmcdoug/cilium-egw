@@ -44,6 +44,9 @@ Ubuntu 22.04 VMs attached to the containerlab leaf nodes:
 - virsh XML files for defining linux bridge networks to interconnect the VMs with containerlab routers
 - virsh XML files defining the VMs themselves
 - etc/netplan files defining the VMs' network interfaces and routes
+```
+kubeadm token create --print-join-command
+```
 
 ## Instructions
 
