@@ -27,8 +27,10 @@ kubectl get pods -n kube-system
 
 4. label k8s nodes to both be egressnode=blue
 ```
-kubectl label node k8s-egw-blue egressnode=blue
+kubectl label node k8s-egw-blue1 egressnode=blue
 kubectl label node k8s-egw-blue2 egressnode=blue
+kubectl label node k8s-egw-green1 egressnode=green
+kubectl label node k8s-egw-green2 egressnode=green
 ```
 
 1. [12-egw-blue-HA.yaml](./12-egw-blue-HA.yaml) CRD
