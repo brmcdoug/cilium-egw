@@ -21,6 +21,7 @@ enterprise:
     - EnterpriseBGPControlPlane
     - EgressGatewayHA
     - EgressGatewayIPv4
+    - GatewayAPI
 envoy:
   enabled: true
   extraArgs:

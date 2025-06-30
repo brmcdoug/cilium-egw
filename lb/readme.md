@@ -25,7 +25,7 @@ helm upgrade cilium isovalent/cilium --namespace kube-system -f  helm-values-HA.
 
 or
 ```
-helm install cilium isovalent/cilium --namespace kube-system -f  helm-values-HA.yaml
+helm install cilium isovalent/cilium --namespace kube-system -f  helm-values-LB.yaml
 ```
 
 ```
