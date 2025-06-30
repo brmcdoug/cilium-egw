@@ -75,8 +75,13 @@ kubectl label node k8s-egw-green1 egressnode=green
 kubectl label node k8s-egw-green2 egressnode=green
 ```
 
-6. Final package update if any
+6. Final package update if needed
 ```
 sudo apt update
+sudo crictl pull <image>
 ```
 
+7. Flip default route on EGW Green nodes
+```
+
+```
