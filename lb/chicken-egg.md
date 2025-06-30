@@ -42,3 +42,7 @@ Reading state information... Done
 ```
 
 3. Join K8s cluster
+On CP
+```
+kubeadm token create --print-join-command
+```
