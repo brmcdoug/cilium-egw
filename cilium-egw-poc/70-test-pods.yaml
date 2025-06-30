@@ -3,9 +3,9 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: testns
+  name: testns1
   labels:
-    name: testns
+    name: testns1
 
 ---
 kind: Namespace
@@ -19,10 +19,10 @@ metadata:
 apiVersion: v1
 kind: Pod
 metadata:
-  namespace: testns
+  namespace: testns1
   labels:
     app: alpine-ping
-  name: testpod0
+  name: testpod1
 spec:
   containers:
   - image: iejalapeno/alpine:latest
@@ -30,7 +30,7 @@ spec:
     securityContext:
       privileged: true
       allowPrivilegeEscalation: true
-    name: testpod0
+    name: testpod1
     command:
       - /bin/sh
       - "-c"
@@ -48,7 +48,7 @@ spec:
   containers:
   - image: alpine:latest
     imagePullPolicy: IfNotPresent
-    name: testpod1
+    name: testpod2
     securityContext:
       privileged: true
       allowPrivilegeEscalation: true

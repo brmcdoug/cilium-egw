@@ -16,7 +16,7 @@ kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheu
 
 3. Re-install Cilium using updated helm values with serviceMonitor uncommented
 ```
-helm install cilium isovalent/cilium --version 1.16.8  --namespace kube-system -f  helm-values-HA.yaml 
+helm install cilium isovalent/cilium --version 1.17.5  --namespace kube-system -f  helm-values-HA.yaml 
 ```
 
 4. Check helm values and that all Cilium agent pods are up
@@ -31,6 +31,10 @@ helm repo update
 ```
 
 6. Install kube-prometheus-stack
+```
+kubectl create namespace monitoring
+```
+
 ```
 helm install prometheus prometheus-community/prometheus \
   --namespace monitoring \
@@ -51,7 +55,7 @@ kubectl get servicemonitors -A
 
 1. label k8s nodes 
 ```
-kubectl label node k8s-egw-blue egressnode=blue
+kubectl label node k8s-egw-blue1 egressnode=blue
 kubectl label node k8s-egw-blue2 egressnode=blue
 
 kubectl label node k8s-egw-green1 egressnode=green

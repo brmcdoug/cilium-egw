@@ -56,3 +56,27 @@ k8s-egw-green1   Ready    <none>          72s     v1.31.8   10.10.10.103   <none
 k8s-egw-green2   Ready    <none>          10s     v1.31.8   10.10.10.104   <none>        Ubuntu 22.04.5 LTS   5.15.0-142-generic   containerd://1.7.27
 k8s-wkr0         Ready    <none>          7m22s   v1.31.8   10.10.10.105   <none>        Ubuntu 22.04.5 LTS   5.15.0-142-generic   containerd://1.7.27
 ```
+
+4. Install Cilium from Helm chart
+```
+helm install cilium isovalent/cilium --namespace kube-system -f  helm-values-LB.yaml
+```
+Verify
+```
+kubectl get pods -n kube-system
+```
+
+5. Label GW nodes
+```
+kubectl label node k8s-egw-blue1 egressnode=blue
+kubectl label node k8s-egw-blue2 egressnode=blue
+
+kubectl label node k8s-egw-green1 egressnode=green
+kubectl label node k8s-egw-green2 egressnode=green
+```
+
+6. Final package update if any
+```
+sudo apt update
+```
+
