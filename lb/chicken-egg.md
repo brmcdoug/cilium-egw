@@ -82,6 +82,34 @@ sudo crictl pull <image>
 ```
 
 7. Flip default route on EGW Green nodes
+```yaml
+    ens4:
+      addresses:
+        - 10.10.10.103/24
+        - fc00:0:1000::103/64
+      nameservers:
+        addresses: [8.8.8.8]
+      routes:
+        #- to: default
+        #  via: 10.10.10.3
+        - to: 10.10.0.0/20
+          via: 10.10.10.1
+    ens5:
+      addresses:
+        - 10.10.21.2/24
+      routes:
+        - to: default
+          via: 10.10.21.1
+```
+```
+sudo netplan apply
 ```
 
+8. apply green GW config
 ```
+kubectl apply -f 10-egw-green-HA.yaml
+kubectl apply -f 20-bgp-cluster-green.yaml 
+kubectl apply -f 30-bgp-peer-green.yaml
+kubectl apply -f 40-bgp-advert-green.yaml 
+```
+
