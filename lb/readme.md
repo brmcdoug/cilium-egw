@@ -55,34 +55,9 @@ helm upgrade cilium isovalent/cilium --namespace kube-system --set loadBalancer.
 kubectl -n kube-system exec ds/cilium -- cilium-dbg status --verbose | more
 ```
 
-4. deploy test pods
 ```
-kubectl apply -f nginx-test-dp.yaml
-kubectl get pods -l run=my-nginx -o wide
+kubectl get services -l 'gateway in (blue,green)' -o wide
 ```
-
-5. expost NP
-```
-kubectl expose deployment my-nginx --type=NodePort --port=80
-```
-
-6. test
-```
-kubectl get svc my-nginx
-```
-
-```
-cisco@k8s-cp:~/cilium-egw/lb$ kubectl get svc my-nginx
-NAME       TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
-my-nginx   NodePort   10.96.239.117   <none>        80:31021/TCP   17s
-```
-
-7. validate kube-proxy replacement 
-```
-kubectl -n kube-system exec ds/cilium -- cilium-dbg service list
-```
-
-8. create variable and test with simple curls
   
 ```
 node_port=$(kubectl get svc my-nginx -o=jsonpath='{@.spec.ports[0].nodePort}')

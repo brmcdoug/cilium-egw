@@ -1,0 +1,12 @@
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "blue"
+  labels:
+    ingress: blue
+spec:
+  blocks:
+  - cidr: "10.27.248.12/31"
+  serviceSelector:
+    matchLabels:
+      gateway: blue
