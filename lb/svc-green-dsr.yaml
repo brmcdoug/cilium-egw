@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: test-service-snat
+  name: test-service-dsr
   annotations:
-    service.cilium.io/loadbalancer-mode: "snat"
+    service.cilium.io/loadbalancer-mode: "dsr"
   labels:
-    gateway: blue
+    gateway: green
 spec:
   type: LoadBalancer
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: nginx-test
+    app: nginx-green

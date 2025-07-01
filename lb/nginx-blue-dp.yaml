@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-test
+  name: nginx-blue
   labels:
-    app: nginx-test
+    app: nginx-blue
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nginx-test
+      app: nginx-blue
   template:
     metadata:
       labels:
-        app: nginx-test
+        app: nginx-blue
     spec:
       containers:
       - name: nginx
@@ -21,22 +21,6 @@ spec:
         - containerPort: 80
         env:
         - name: NGINX_HOST
-          value: "nginx-test"
+          value: "nginx-blue"
         - name: NGINX_PORT
           value: "80"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-test
-  labels:
-    gateway: blue
-    ingress: blue
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 80
-    protocol: TCP
-  selector:
-    app: nginx-test

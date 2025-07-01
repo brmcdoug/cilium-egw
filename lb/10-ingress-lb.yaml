@@ -21,7 +21,7 @@ metadata:
     ingress: blue
 spec:
   blocks:
-  - cidr: "10.27.248.13/31"
+  - cidr: "10.27.248.12/31"
   serviceSelector:
     matchLabels:
       gateway: blue

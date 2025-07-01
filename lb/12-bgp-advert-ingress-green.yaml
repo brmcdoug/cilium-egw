@@ -1,0 +1,22 @@
+apiVersion: isovalent.com/v1
+kind: IsovalentBGPAdvertisement
+metadata:
+  name: bgp-ingress-green
+  labels:
+    advertise: bgp-green
+spec:
+  advertisements:
+    - advertisementType: "Service"
+      selector:            
+        matchExpressions:
+          - { key: gateway, operator: In, values: [ green ] }
+      service:
+        addresses:
+        - LoadBalancerIP
+      attributes:
+        communities:
+          standard: 
+          - 64512:1
+          - 65000:1720
+          - 65000:5006
+          - 65004:9001 
