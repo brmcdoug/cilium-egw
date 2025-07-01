@@ -68,10 +68,10 @@ ipam:
     - 172.16.0.0/16
 k8s:
   requireIPv4PodCIDR: true
-kubeProxyReplacement: "true"
-# loadBalancer:
-#   acceleration: native
-#   mode: maglev
+kubeProxyReplacement: "true" 
+loadBalancer:
+  acceleration: native
+  mode: maglev
 nodePort:
   enabled: true
 nodeinit:
