@@ -4,6 +4,7 @@
 - [Ingress GW and Load Balancing](#ingress-gw-and-load-balancing)
 - [Contents](#contents)
   - [kube-proxy replacement and base setup](#kube-proxy-replacement-and-base-setup)
+  - [Enterprise ?](#enterprise-)
   - [Client source IP preservation (DSR)](#client-source-ip-preservation-dsr)
   - [Appendix](#appendix)
 
@@ -37,6 +38,19 @@ helm get values cilium -n kube-system
 kubectl -n kube-system exec ds/cilium -- cilium-dbg status | grep KubeProxyReplacement
 
 kubectl -n kube-system exec ds/cilium -- cilium-dbg status --verbose
+```
+
+### Enterprise ?
+```
+helm upgrade cilium isovalent/cilium --namespace kube-system --set loadBalancer.acceleration=native --set loadBalancer.mode=maglev
+```
+```
+--set loadBalancer.acceleration=best-effort
+```
+
+4. Verify
+```
+kubectl -n kube-system exec ds/cilium -- cilium-dbg status --verbose | more
 ```
 
 4. deploy test pods

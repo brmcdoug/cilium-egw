@@ -53,7 +53,7 @@ hubble:
     serviceMonitor:
       enabled: true
   relay:
-    dialTimeout: 15s
+    dialTimeout: 45s
     enabled: true
     prometheus:
       enabled: true

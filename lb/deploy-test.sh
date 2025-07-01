@@ -4,7 +4,7 @@ echo "Deploying Enterprise Ingress Load Balancer Test..."
 
 # Label nodes for ingress load balancer (adjust node names as needed)
 echo "Labeling nodes for ingress load balancer..."
-kubectl label nodes k8s-egw-blue ingressnode=blue --overwrite
+kubectl label nodes k8s-egw-blue1 ingressnode=blue --overwrite
 kubectl label nodes k8s-egw-blue2 ingressnode=blue --overwrite
 
 # Apply IP pool
