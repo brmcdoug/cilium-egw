@@ -21,7 +21,7 @@ iptables-save | grep -v KUBE | iptables-restore
 
 2. helm upgrade (we already have kubeProxyReplacement=true)
 ```
-helm upgrade cilium isovalent/cilium --namespace kube-system -f  helm-values-HA.yaml 
+helm upgrade cilium isovalent/cilium --namespace kube-system -f  helm-values-LB.yaml 
 ```
 
 or
@@ -38,6 +38,8 @@ helm get values cilium -n kube-system
 kubectl -n kube-system exec ds/cilium -- cilium-dbg status | grep KubeProxyReplacement
 
 kubectl -n kube-system exec ds/cilium -- cilium-dbg status --verbose
+
+kubectl get pods -n kube-system -l k8s-app=cilium -o wide
 ```
 
 ### Enterprise ?
