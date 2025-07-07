@@ -3,7 +3,8 @@ kind: Service
 metadata:
   name: test-service-dsr
   annotations:
-    service.cilium.io/loadbalancer-mode: "dsr"
+    service.cilium.io/forwarding-mode: dsr
+    # service.cilium.io/loadbalancer-mode: "dsr"
   labels:
     gateway: green
 spec:
