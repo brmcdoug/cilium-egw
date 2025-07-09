@@ -9,11 +9,6 @@ debug:
 egressGateway:
   enabled: true
   installRoutes: true
-kubeProxyReplacement: "true" 
-loadBalancer:
-  acceleration: native
-  mode: dsr
-  algorithm: maglev
 enterprise:
   bgpControlPlane:
     enabled: true
@@ -74,6 +69,11 @@ ipam:
     - 172.16.0.0/16
 k8s:
   requireIPv4PodCIDR: true
+kubeProxyReplacement: "true" 
+# loadBalancer:
+#   acceleration: native
+#   mode: dsr
+#   algorithm: maglev
 nodePort:
   enabled: true
 nodeinit:
