@@ -2,7 +2,7 @@ MTU: 1500
 agentNotReadyTaintKey: CiliumIsDown
 bpf:
   masquerade: true
-  lbModeAnnotation: false
+  lbModeAnnotation: false  # Disable annotation mode
 debug:
   enabled: true
   verbose: flow,datapath,envoy,policy
@@ -72,8 +72,8 @@ k8s:
 kubeProxyReplacement: "true"
 loadBalancer:
   acceleration: native
+  mode: snat  # Default to SNAT mode - compatible with VXLAN
   algorithm: maglev
-  #dsrDispatch: ipip  # Configure DSR dispatch method
 nodePort:
   enabled: true
 nodeinit:
@@ -82,8 +82,4 @@ prometheus:
   enabled: true
   serviceMonitor:
     enabled: true
-    trustCRDsExist: true
-# Disable VXLAN tunneling to enable SNAT mode with annotations
-tunneling:
-  enabled: false
-routingMode: native
+    trustCRDsExist: true 
