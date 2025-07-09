@@ -72,9 +72,8 @@ k8s:
 kubeProxyReplacement: "true" 
 loadBalancer:
   acceleration: native
-  mode: maglev
-  # Configure DSR dispatch method
-  dsrDispatch: ipip  # Options: opt, ipip, geneve
+  mode: snat  # Use SNAT instead of DSR to avoid dispatch issues
+  algorithm: maglev
 nodePort:
   enabled: true
 nodeinit:
@@ -83,4 +82,4 @@ prometheus:
   enabled: true
   serviceMonitor:
     enabled: true
-    trustCRDsExist: true
+    trustCRDsExist: true 
