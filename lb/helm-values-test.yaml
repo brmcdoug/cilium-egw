@@ -72,7 +72,7 @@ k8s:
 kubeProxyReplacement: "true" 
 loadBalancer:
   acceleration: native
-  mode: hybrid  # Allows both SNAT and DSR per service
+  #mode: hybrid  # Allows both SNAT and DSR per service
   algorithm: maglev  # Maglev is an algorithm, not a mode
   dsrDispatch: ipip  # Configure DSR dispatch method
 nodePort:
