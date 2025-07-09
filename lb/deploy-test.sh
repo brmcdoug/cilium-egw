@@ -12,7 +12,9 @@ kubectl label nodes k8s-egw-green2 ingressnode=green --overwrite
 
 # Apply IP pool
 echo "Applying LoadBalancer IP Pool..."
-kubectl apply -f 10-ingress-lb.yaml
+kubectl apply -f 01-ingress-lb-blue.yaml
+kubectl apply -f 02-ingress-lb-green.yaml
+
 
 # Apply BGP advertisement (uses existing cluster/peer configs)
 echo "Applying BGP Advertisement..."
