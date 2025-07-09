@@ -70,11 +70,11 @@ ipam:
 k8s:
   requireIPv4PodCIDR: true
 kubeProxyReplacement: "true" 
-loadBalancer:
-  acceleration: native
-  #mode: hybrid  # Allows both SNAT and DSR per service
-  algorithm: maglev  # Maglev is an algorithm, not a mode
-  dsrDispatch: ipip  # Configure DSR dispatch method
+# loadBalancer:
+#   acceleration: native
+#   #mode: hybrid  # Allows both SNAT and DSR per service
+#   algorithm: maglev  # Maglev is an algorithm, not a mode
+#   dsrDispatch: ipip  # Configure DSR dispatch method
 nodePort:
   enabled: true
 nodeinit:
