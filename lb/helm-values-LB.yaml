@@ -70,9 +70,9 @@ ipam:
 k8s:
   requireIPv4PodCIDR: true
 kubeProxyReplacement: "true" 
-loadBalancer:
-  acceleration: native
-  mode: maglev
+# loadBalancer:
+#   acceleration: native
+#   mode: maglev
 #tunnelProtocol: geneve
 nodePort:
   enabled: true
