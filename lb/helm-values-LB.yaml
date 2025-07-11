@@ -2,7 +2,7 @@ MTU: 1500
 agentNotReadyTaintKey: CiliumIsDown
 bpf:
   masquerade: true
-  lbModeAnnotation: true
+  #lbModeAnnotation: true
 debug:
   enabled: true
   verbose: flow,datapath,envoy,policy
