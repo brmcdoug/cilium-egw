@@ -3,6 +3,7 @@ agentNotReadyTaintKey: CiliumIsDown
 bpf:
   masquerade: true
   lbModeAnnotation: false
+  egressPolicyMapMax: 32768
 debug:
   enabled: true
   verbose: flow,datapath,envoy,policy
@@ -74,9 +75,6 @@ loadBalancer:
   acceleration: native
   algorithm: maglev
   #dsrDispatch: ipip  # Configure DSR dispatch method
-agent:
-  extraArgs:
-    egress-gw-policy-map-max: "32768"
 nodePort:
   enabled: true
 nodeinit:
