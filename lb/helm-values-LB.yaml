@@ -74,6 +74,9 @@ kubeProxyReplacement: "true"
 #   acceleration: native
 #   mode: maglev
 #tunnelProtocol: geneve
+agent:
+  extraArgs:
+    egress-gw-policy-map-max: "32768"
 nodePort:
   enabled: true
 nodeinit:
