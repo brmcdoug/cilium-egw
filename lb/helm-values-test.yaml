@@ -4,6 +4,7 @@ bpf:
   masquerade: true
   lbModeAnnotation: false
   egressPolicyMapMax: 32768
+  egressPumpkin: true
 debug:
   enabled: true
   verbose: flow,datapath,envoy,policy
@@ -74,7 +75,6 @@ kubeProxyReplacement: "true"
 loadBalancer:
   acceleration: native
   algorithm: maglev
-  #dsrDispatch: ipip  # Configure DSR dispatch method
 nodePort:
   enabled: true
 nodeinit:
@@ -84,7 +84,3 @@ prometheus:
   serviceMonitor:
     enabled: true
     trustCRDsExist: true
-# Disable VXLAN tunneling to enable SNAT mode with annotations
-# tunneling:
-#   enabled: false
-# routingMode: native
