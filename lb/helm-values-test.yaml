@@ -85,6 +85,6 @@ prometheus:
     enabled: true
     trustCRDsExist: true
 # Disable VXLAN tunneling to enable SNAT mode with annotations
-tunneling:
-  enabled: false
-routingMode: native
+# tunneling:
+#   enabled: false
+# routingMode: native
