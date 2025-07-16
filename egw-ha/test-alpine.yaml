@@ -1,6 +1,8 @@
----
 apiVersion: apps/v1
 kind: Deployment
+metadata:
+  name: test-alpine
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -12,11 +14,21 @@ spec:
         app: test-alpine
     spec:
       containers:
-        - image: docker.io/iejalapeno/alpine:latest
+        - name: test-alpine
+          image: docker.io/iejalapeno/alpine:latest
           imagePullPolicy: Always
-          name: test-alpine
-          command: ["/bin/bash"]
+          command: ["/bin/sh"]
           args: ["-c", "while true; do sleep 30; done"]
-metadata:
-  name: test-alpine
-  namespace: default
+          # Ensure ping and networking tools are available
+          securityContext:
+            capabilities:
+              add:
+                - NET_RAW
+                - NET_ADMIN
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m" 
