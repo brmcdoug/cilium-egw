@@ -12,6 +12,9 @@ spec:
         app: test-alpine
     spec:
       containers:
-          image: docker.io/iejalapeno/alpine:latest
+        - image: docker.io/iejalapeno/alpine:latest
           imagePullPolicy: Always
           name: test-alpine
+metadata:
+  name: test-alpine
+  namespace: default
