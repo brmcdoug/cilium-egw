@@ -210,3 +210,102 @@ kubectl delete -f 10-egw-green-HA.yaml
   - "0.0.0.0/0"
   #- "10.0.0.0/8"
 ```
+
+9. apply
+```
+kubectl apply -f 11-blue-HA.yaml
+```
+
+10. verify EGW policy:
+```
+kubectl get IsovalentEgressGatewayPolicy -oyaml
+```
+
+```
+cisco@k8s-cp:~/cilium-egw/egw-ha$ kubectl get IsovalentEgressGatewayPolicy -oyaml
+apiVersion: v1
+items:
+- apiVersion: isovalent.com/v1
+  kind: IsovalentEgressGatewayPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"isovalent.com/v1","kind":"IsovalentEgressGatewayPolicy","metadata":{"annotations":{},"labels":{"advertise":"bgp-blue"},"name":"egress-blue"},"spec":{"destinationCIDRs":["0.0.0.0/0"],"egressGroups":[{"maxGatewayNodes":2,"nodeSelector":{"matchLabels":{"egressnode":"blue"}}}],"selectors":[{"podSelector":{}}]}}
+    creationTimestamp: "2025-06-30T05:42:09Z"
+    generation: 3
+    labels:
+      advertise: bgp-blue
+    name: egress-blue
+    resourceVersion: "3071850"
+    uid: 4ad29768-4c84-43a9-9cff-22670631fdf6
+  spec:
+    destinationCIDRs:
+    - 0.0.0.0/0
+    egressGroups:
+    - maxGatewayNodes: 2
+      nodeSelector:
+        matchLabels:
+          egressnode: blue
+    selectors:
+    - podSelector: {}
+  status:
+    groupStatuses:
+    - activeGatewayIPs:
+      - 10.10.10.101
+      - 10.10.10.102
+      healthyGatewayIPs:
+      - 10.10.10.101
+      - 10.10.10.102
+    observedGeneration: 3
+kind: List
+metadata:
+  resourceVersion: ""
+```
+
+11. ping test pod to pod
+```
+cisco@k8s-cp:~/cilium-egw/egw-ha$ kubectl exec -it -n testns1 testpod1 -- ping 172.16.5.185
+PING 172.16.5.185 (172.16.5.185): 56 data bytes
+64 bytes from 172.16.5.185: seq=0 ttl=63 time=3.744 ms
+64 bytes from 172.16.5.185: seq=1 ttl=63 time=1.491 ms
+64 bytes from 172.16.5.185: seq=2 ttl=63 time=1.669 ms
+```
+
+12. curl test from pod in the cluster
+```
+~ $ curl http://10.96.163.83
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+~ $ 
+```
+
+13. DNS test from pod inside the cluster
+```
+cisco@k8s-cp:~/cilium-egw/egw-ha$ kubectl exec -it test-alpine-777bf49f54-ngncl -- sh
+/ # ping www.adobe.com
+PING www.adobe.com (184.25.127.146): 56 data bytes
+64 bytes from 184.25.127.146: seq=0 ttl=48 time=19.581 ms
+64 bytes from 184.25.127.146: seq=1 ttl=48 time=19.044 ms
+^C
+```
