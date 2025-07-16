@@ -3,8 +3,6 @@ agentNotReadyTaintKey: CiliumIsDown
 bpf:
   masquerade: true
   lbModeAnnotation: false
-  egressPolicyMapMax: 32768
-  egressPumpkin: true
 debug:
   enabled: true
   verbose: flow,datapath,envoy,policy
