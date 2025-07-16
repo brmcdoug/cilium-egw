@@ -3,9 +3,9 @@ kind: JoinConfiguration
 discovery:
   bootstrapToken:
     apiServerEndpoint: 10.10.10.2:6443
-    token: "ufiqgv.oruhz0jgxj13bak5"
+    token: "o5t2hy.vgrffujw35qr9ux0"
     caCertHashes:
-    - "sha256:05740bb3df5f9092ed606209d72728722e4d7942fae6711b126df35843171057"
+    - "sha256:53821cbe3a800de81af09d747f0f0416acacb62bc74de98aa75875fa8c12db36"
 nodeRegistration:
   kubeletExtraArgs:
   - name: "node-ip"
