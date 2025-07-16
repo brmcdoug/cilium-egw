@@ -2,6 +2,11 @@
 
 I cleaned everything out first and had to rebuild my n9kv topology to include two DCI nodes
 
+To add nodes to cluster:
+```
+kubeadm token create --print-join-command
+```
+
 1. Delete existing Cilium CRDs and uninstall Cilium via helm uninstall:
 ```
 kubectl delete -f <filename.yaml>
@@ -53,7 +58,7 @@ verify
 kubectl get servicemonitors -A
 ```
 
-1. label k8s nodes 
+8. label k8s nodes 
 ```
 kubectl label node k8s-egw-blue1 egressnode=blue
 kubectl label node k8s-egw-blue2 egressnode=blue
