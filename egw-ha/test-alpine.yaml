@@ -1,0 +1,17 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-alpine
+  template:
+    metadata:
+      labels:
+        app: test-alpine
+    spec:
+      containers:
+          image: docker.io/iejalapeno/alpine:latest
+          imagePullPolicy: Always
+          name: test-alpine
