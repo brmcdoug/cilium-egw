@@ -2,13 +2,13 @@ MTU: 1500
 agentNotReadyTaintKey: CiliumIsDown
 bpf:
   masquerade: true
-  #lbModeAnnotation: true
 debug:
   enabled: true
   verbose: flow,datapath,envoy,policy
 egressGateway:
   enabled: true
   installRoutes: true
+  maxPolicyEntries: 32768
 enterprise:
   bgpControlPlane:
     enabled: true
@@ -70,13 +70,9 @@ ipam:
 k8s:
   requireIPv4PodCIDR: true
 kubeProxyReplacement: "true" 
-# loadBalancer:
-#   acceleration: native
-#   mode: maglev
-#tunnelProtocol: geneve
-agent:
-  extraArgs:
-    egress-gw-policy-map-max: "32768"
+loadBalancer:
+  acceleration: native
+  algorithm: maglev
 nodePort:
   enabled: true
 nodeinit:

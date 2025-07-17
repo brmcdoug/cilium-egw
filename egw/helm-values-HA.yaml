@@ -8,6 +8,7 @@ debug:
 egressGateway:
   enabled: true
   installRoutes: true
+  maxPolicyEntries: 32768
 enterprise:
   bgpControlPlane:
     enabled: true
