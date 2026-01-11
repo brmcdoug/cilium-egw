@@ -6,12 +6,9 @@ network:
         - 192.168.122.105/24
     ens4:
       addresses:
-        - 10.10.12.2/24
-        - fc00:0:1002::2/64
+        - 10.10.10.105/24
+        - fc00:0:1000::105/64
       nameservers:
         addresses: [8.8.8.8]
-      gateway4: 10.10.12.3   
-      routes: 
-        - to: 10.10.0.0/16
-          via: 10.10.12.1
+      gateway4: 10.10.10.3   
   version: 2

@@ -13,8 +13,6 @@ network:
       routes: 
         - to: default
           via: 10.10.10.3
-        # - to: 10.10.0.0/20
-        #   via: 10.10.10.1
     ens5:
       addresses:
         - 10.10.21.4/24

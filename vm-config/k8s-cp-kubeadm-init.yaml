@@ -9,9 +9,9 @@ networking:
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: InitConfiguration
 localAPIEndpoint:
-  advertiseAddress: "10.10.10.2"
+  advertiseAddress: "10.10.10.100"
   bindPort: 6443
 nodeRegistration:
   kubeletExtraArgs:
   - name: "node-ip"
-    value: "10.10.10.2"
+    value: "10.10.10.100"

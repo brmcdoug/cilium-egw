@@ -1,5 +1,10 @@
 ## HA and health checks
 
+To add nodes to cluster:
+```
+kubeadm token create --print-join-command
+```
+
 1. Edits to [helm values](./helm-values-HA.yaml) - base HA and healthcheck config
 
 ```yaml

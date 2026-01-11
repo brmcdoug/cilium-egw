@@ -2,10 +2,10 @@ apiVersion: kubeadm.k8s.io/v1beta4
 kind: JoinConfiguration
 discovery:
   bootstrapToken:
-    apiServerEndpoint: 10.10.10.2:6443
-    token: "v552jj.ku20pnxwp6uj52mw"
+    apiServerEndpoint: 10.10.10.100:6443
+    token: "kq0s4s.48dxcfz7q1fy1sjm"
     caCertHashes:
-    - "sha256:5c68fceaa14a1ca6a230e64abb2f5751c37c93b6f5eafaed72d5139a4be371e3"
+    - "sha256:fb8f42679747e8d7f4717a977db4c6e1b940d47ae7be6059c57756c361275630"
 nodeRegistration:
   kubeletExtraArgs:
   - name: "node-ip"

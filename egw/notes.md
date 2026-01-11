@@ -2,10 +2,7 @@
 
 I cleaned everything out first and had to rebuild my n9kv topology to include two DCI nodes
 
-To add nodes to cluster:
-```
-kubeadm token create --print-join-command
-```
+
 
 1. Delete existing Cilium CRDs and uninstall Cilium via helm uninstall:
 ```
@@ -87,43 +84,5 @@ kubectl get IsovalentEgressGatewayPolicy -oyaml
 ```
 
 
-1.  cleanup old EGW if any:
-```
-kubectl delete isovalentegressgatewaypolicies egress-blue
-kubectl get isovalentegressgatewaypolicies
-```
 
-1.  apply 12-egw-blue-HA.yaml (delete )
-```
-kubectl apply -f 12-egw-blue-HA.yaml
-```
-
-1.   Annotate EGW nodes to set BGP router-id (if needed)
-```
-kubectl annotate node k8s-egw-green cilium.io/bgp-virtual-router.65001="router-id=10.10.21.2"
-kubectl annotate node k8s-egw-blue cilium.io/bgp-virtual-router.65001="router-id=10.10.23.2"
-```
-
-1.    Verify BGP peer session established and Cilium is advertising the VIP route:
-```
-cilium bgp peers
-cilium bgp routes
-```
-
-1.  update helm values (if needed)
-```
-helm upgrade cilium isovalent/cilium --namespace kube-system -f helm-values-test.yaml 
-```
-
-```
-kubectl get isovalentegressgatewaypolicies egress-blue -o yaml
-```
-
-
-
-
-15.  Test connectivity to DCI/Blue 10.0.0.0/8 
-```
-kubectl exec -it -n testns testpod1 -- ping 10.0.0.5 -c 2
-```
 
