@@ -10,6 +10,7 @@ network:
         - fc00:0:1000::100/64
       nameservers:
         addresses: [8.8.8.8]
+      mtu: 1400
       gateway4: 10.10.10.3  
       routes: 
         - to: 10.10.0.0/16

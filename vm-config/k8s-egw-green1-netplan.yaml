@@ -10,6 +10,7 @@ network:
         - fc00:0:1000::103/64
       nameservers:
         addresses: [8.8.8.8]
+      mtu: 1400
     ens5:
       addresses:
         - 10.10.21.2/24
